@@ -1,9 +1,9 @@
-package com.services;
+package Application;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 @ApplicationPath("/api")
-public class HelloApplication extends Application {
+public class ReserveOpsApplication extends Application {
 
 }
