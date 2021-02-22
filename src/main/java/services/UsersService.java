@@ -1,12 +1,20 @@
 package services;
 
 import interfaces.IBaseOperation;
+import interfaces.IUserRepository;
+import repository.UserRepository;
 
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import java.util.List;
 
 @Path("/users")
 public class UsersService<E> implements IBaseOperation<E> {
+
+    @Inject
+    IUserRepository userRepository;
+
+
     @Override
     @POST
     public int create() {
@@ -35,6 +43,7 @@ public class UsersService<E> implements IBaseOperation<E> {
     @Override
     @GET
     public List<E> readList() {
+        this.userRepository.login();
         return null;
     }
 }

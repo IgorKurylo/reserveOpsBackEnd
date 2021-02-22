@@ -5,8 +5,12 @@
          http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
     <servlet>
-        <servlet-name>Test Jersey Service </servlet-name>
+        <servlet-name>Reserve Ops API</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>application.ReserveOpsApplication</param-value>
+        </init-param>
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
             <param-value>services</param-value>
@@ -14,7 +18,7 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Test Jersey Service</servlet-name>
+        <servlet-name>Reserve Ops API</servlet-name>
         <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
 </web-app>
