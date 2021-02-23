@@ -1,15 +1,15 @@
 package services;
 
-import interfaces.IBaseOperation;
+import interfaces.IBaseCrudOperation;
 import interfaces.IUserRepository;
-import repository.UserRepository;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/users")
-public class UsersService<E> implements IBaseOperation<E> {
+public class UsersService implements IBaseCrudOperation {
 
     @Inject
     IUserRepository userRepository;
@@ -17,33 +17,32 @@ public class UsersService<E> implements IBaseOperation<E> {
 
     @Override
     @POST
-    public int create() {
-        return 0;
+    public Response create() {
+        return null;
     }
 
     @Override
     @PUT
-    public void update() {
-
+    public Response update() {
+        return null;
     }
 
     @DELETE
     @Override
-    public int delete() {
-        return 0;
+    public Response delete() {
+        return null;
     }
 
     @Override
     @GET()
     @Path("{id}")
-    public E read() {
+    public Response read() {
         return null;
     }
 
     @Override
     @GET
-    public List<E> readList() {
-        this.userRepository.login();
+    public Response readList() {
         return null;
     }
 }

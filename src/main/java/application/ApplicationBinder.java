@@ -10,5 +10,7 @@ public class ApplicationBinder extends AbstractBinder {
     @Override
     protected void configure() {
         bind(UserRepository.class).to(IUserRepository.class);
+        bind(ApplicationConfig.getInstance()).to(ApplicationConfig.class);
+
     }
 }
