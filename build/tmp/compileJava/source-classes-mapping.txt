@@ -1,12 +1,18 @@
-interfaces/IBaseOperation.java
- interfaces.IBaseOperation
-interfaces/IUserRepository.java
- interfaces.IUserRepository
-repository/UserRepository.java
- repository.UserRepository
-application/ReserveOpsApplication.java
- application.ReserveOpsApplication
-application/ApplicationBinder.java
- application.ApplicationBinder
+application/ApplicationConfig.java
+ application.ApplicationConfig
 services/UsersService.java
  services.UsersService
+services/AuthService.java
+ services.AuthService
+interfaces/IUserRepository.java
+ interfaces.IUserRepository
+repository/DatabaseConnection.java
+ repository.DatabaseConnection
+application/Application.java
+ application.Application
+interfaces/IBaseCrudOperation.java
+ interfaces.IBaseCrudOperation
+repository/UserRepository.java
+ repository.UserRepository
+application/ApplicationBinder.java
+ application.ApplicationBinder
