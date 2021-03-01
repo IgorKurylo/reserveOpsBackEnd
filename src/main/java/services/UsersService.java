@@ -1,18 +1,17 @@
 package services;
 
 import interfaces.IBaseCrudOperation;
-import interfaces.IUserRepository;
+import interfaces.IAuthRepository;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 @Path("/users")
 public class UsersService implements IBaseCrudOperation {
 
     @Inject
-    IUserRepository userRepository;
+    IAuthRepository userRepository;
 
 
     @Override

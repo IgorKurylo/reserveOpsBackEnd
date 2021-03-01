@@ -1,18 +1,20 @@
 application/ApplicationConfig.java
  application.ApplicationConfig
-services/UsersService.java
- services.UsersService
-services/AuthService.java
- services.AuthService
-interfaces/IUserRepository.java
- interfaces.IUserRepository
-repository/DatabaseConnection.java
- repository.DatabaseConnection
-application/Application.java
- application.Application
 interfaces/IBaseCrudOperation.java
  interfaces.IBaseCrudOperation
-repository/UserRepository.java
- repository.UserRepository
+services/UsersService.java
+ services.UsersService
+repository/AuthRepository.java
+ repository.AuthRepository
+services/AuthService.java
+ services.AuthService
+interfaces/IDatabaseConnection.java
+ interfaces.IDatabaseConnection
+interfaces/IAuthRepository.java
+ interfaces.IAuthRepository
+application/Application.java
+ application.Application
+repository/DatabaseConnection.java
+ repository.DatabaseConnection
 application/ApplicationBinder.java
  application.ApplicationBinder

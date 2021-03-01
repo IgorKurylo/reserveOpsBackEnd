@@ -1,16 +1,17 @@
 package application;
 
-import interfaces.IUserRepository;
+import interfaces.IDatabaseConnection;
+import interfaces.IAuthRepository;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
-import repository.UserRepository;
+import repository.DatabaseConnection;
+import repository.AuthRepository;
 
 
 public class ApplicationBinder extends AbstractBinder {
 
     @Override
     protected void configure() {
-        bind(UserRepository.class).to(IUserRepository.class);
-        bind(ApplicationConfig.getInstance()).to(ApplicationConfig.class);
-
+        bind(AuthRepository.class).to(IAuthRepository.class);
+        bind(DatabaseConnection.class).to(IDatabaseConnection.class);
     }
 }

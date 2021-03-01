@@ -1,12 +1,9 @@
 package application;
-
-import javax.inject.Singleton;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-@Singleton
 public class ApplicationConfig {
     static ApplicationConfig applicationConfig;
     static final String propertiesFile = "config.properties";
@@ -37,10 +34,6 @@ public class ApplicationConfig {
     }
 
     public String getValue(String key) {
-        String propResult="";
-        if (properties.contains(key)) {
-            propResult = properties.getProperty(key, "");
-        }
-        return propResult;
+        return properties.getProperty(key);
     }
 }
