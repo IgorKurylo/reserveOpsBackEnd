@@ -1,9 +1,8 @@
 package repository;
 
 import application.ApplicationConfig;
-import interfaces.IDatabaseConnection;
+import repository.contracts.IDatabaseConnection;
 
-import javax.inject.Inject;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

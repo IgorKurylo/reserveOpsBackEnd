@@ -1,28 +1,21 @@
 package services;
 
 import interfaces.ICrudOperation;
-import repository.contracts.IAuthRepository;
 
-import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-@Path("/users")
-public class UsersService implements ICrudOperation {
-
-    @Inject
-    IAuthRepository userRepository;
-
+public class OrdersService implements ICrudOperation {
     @POST
     @Override
-    public Response create(Object object) {
+    public Response create(Object o) {
         return null;
     }
 
     @PUT
     @Path("{id}")
     @Override
-    public Response update(Object object) {
+    public Response update(Object o) {
         return null;
     }
 

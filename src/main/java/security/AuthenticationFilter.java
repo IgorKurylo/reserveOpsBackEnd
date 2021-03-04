@@ -1,4 +1,4 @@
-package jwt;
+package security;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -9,7 +9,8 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
         String header = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
-        if (header != null && header.startsWith("Bearer ")){
+        if (header != null && header.startsWith("Bearer ")) {
+            String token = header.replace("Bearer ", " ");
 
         }
     }

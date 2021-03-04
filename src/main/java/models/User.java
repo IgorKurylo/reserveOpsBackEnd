@@ -15,6 +15,10 @@ public class User {
         Id = id;
     }
 
+    public User(int id) {
+        Id = id;
+    }
+
     public String getFirstName() {
         return firstName;
     }

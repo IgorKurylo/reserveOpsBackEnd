@@ -1,8 +1,10 @@
-package models;
+package security;
 
 import application.ApplicationConfig;
+import models.User;
 
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 public class AuthenticationTokenDetails {
 
@@ -12,12 +14,22 @@ public class AuthenticationTokenDetails {
     String issuer;
     String tokenSecret;
 
-    public AuthenticationTokenDetails(User user, ZonedDateTime issuedAt, ZonedDateTime expiredAt, String issuer, String tokenSecret) {
+    public AuthenticationTokenDetails(User user) {
         this.user = user;
-        this.issuedAt = issuedAt;
-        this.expiredAt = expiredAt;
-        this.issuer = issuer;
+        this.issuedAt = ZonedDateTime.now();
+        this.expiredAt = this.expiredAt();
+        this.issuer = this.issuer();
         this.tokenSecret = ApplicationConfig.getInstance().getValue("token_secret");
+    }
+
+    private ZonedDateTime expiredAt() {
+        ZonedDateTime expiredAt = ZonedDateTime.now();
+        expiredAt.plusMinutes(10); //TODO: load from settings
+        return expiredAt;
+    }
+
+    private String issuer() {
+        return UUID.fromString(ApplicationConfig.getInstance().getValue("token_issuer")).toString();
     }
 
     public User getUser() {

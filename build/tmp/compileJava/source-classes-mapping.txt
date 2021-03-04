@@ -4,8 +4,8 @@ interfaces/IBaseCrudOperation.java
  interfaces.IBaseCrudOperation
 services/UsersService.java
  services.UsersService
-repository/AuthRepository.java
- repository.AuthRepository
+repository/DatabaseConnection.java
+ repository.DatabaseConnection
 services/AuthService.java
  services.AuthService
 interfaces/IDatabaseConnection.java
@@ -14,7 +14,19 @@ interfaces/IAuthRepository.java
  interfaces.IAuthRepository
 application/Application.java
  application.Application
-repository/DatabaseConnection.java
- repository.DatabaseConnection
+jwt/AccessTokenGenerator.java
+ jwt.AccessTokenGenerator
+jwt/AuthenticationFilter.java
+ jwt.AuthenticationFilter
+models/User.java
+ models.User
+repository/AuthRepository.java
+ repository.AuthRepository
+models/AccessToken.java
+ models.AccessToken
+models/AuthenticationTokenDetails.java
+ models.AuthenticationTokenDetails
+models/BaseResponse.java
+ models.BaseResponse
 application/ApplicationBinder.java
  application.ApplicationBinder

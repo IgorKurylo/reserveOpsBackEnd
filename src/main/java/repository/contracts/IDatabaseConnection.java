@@ -1,4 +1,4 @@
-package interfaces;
+package repository.contracts;
 
 import java.sql.Connection;
 
