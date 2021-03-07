@@ -2,10 +2,8 @@ application/ApplicationConfig.java
  application.ApplicationConfig
 application/GsonProvider.java
  application.GsonProvider
-repository/AuthRepository.java
- repository.AuthRepository
-services/UsersService.java
- services.UsersService
+models/Restaurant.java
+ models.Restaurant
 repository/contracts/IDatabaseConnection.java
  repository.contracts.IDatabaseConnection
 repository/contracts/IAuthRepository.java
@@ -22,22 +20,22 @@ models/AccessToken.java
  models.AccessToken
 services/OrdersService.java
  services.OrdersService
-application/ApplicationBinder.java
- application.ApplicationBinder
+utils/RestResponseBuilder.java
+ utils.RestResponseBuilder
 utils/Const.java
  utils.Const
 interfaces/ICrudOperation.java
  interfaces.ICrudOperation
-application/Application.java
- application.Application
-repository/OrderRepository.java
- repository.OrderRepository
-models/Restaurant.java
- models.Restaurant
-repository/contracts/IOrderRepository.java
- repository.contracts.IOrderRepository
 utils/IConverter.java
  utils.IConverter
+repository/OrderRepository.java
+ repository.OrderRepository
+application/ApplicationBinder.java
+ application.ApplicationBinder
+repository/contracts/IOrderRepository.java
+ repository.contracts.IOrderRepository
+repository/AuthRepository.java
+ repository.AuthRepository
 repository/DatabaseConnection.java
  repository.DatabaseConnection
 models/Role.java
@@ -46,6 +44,8 @@ exceptions/InvalidTokenException.java
  exceptions.InvalidTokenException
 models/Order.java
  models.Order
+application/Application.java
+ application.Application
 security/AuthenticationFilter.java
  security.AuthenticationFilter
 security/AccessTokenGenerator.java

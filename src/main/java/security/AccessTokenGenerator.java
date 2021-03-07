@@ -45,7 +45,7 @@ public class AccessTokenGenerator {
                 details = new AuthenticationTokenDetails(new User(jwt.getClaim("Id").asInt(), "igor", Role.Admin));
             }
         } catch (JWTVerificationException ex) {
-            throw new InvalidTokenException("Invalid Token");
+            throw new InvalidTokenException(String.format("Invalid Token Cause %s", ex.toString()));
         }
         return details;
     }

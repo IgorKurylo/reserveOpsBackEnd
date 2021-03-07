@@ -26,9 +26,10 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
+
         String header = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
         if (header != null && header.startsWith("Bearer ")) {
-            String token = header.replace("Bearer ", " ");
+            String token = header.replace("Bearer ", "");
             try {
                 AuthenticationTokenDetails details = tokenGenerator.parse(token);
 

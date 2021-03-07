@@ -2,6 +2,7 @@ package security;
 
 import application.ApplicationConfig;
 import models.User;
+import utils.Const;
 
 import java.time.ZonedDateTime;
 import java.util.UUID;
@@ -24,7 +25,7 @@ public class AuthenticationTokenDetails {
 
     private ZonedDateTime expiredAt() {
         ZonedDateTime expiredAt = ZonedDateTime.now();
-        expiredAt.plusMinutes(Integer.parseInt(ApplicationConfig.getInstance().getValue("token_exp")));
+        expiredAt = expiredAt.plusMinutes(Const.TOKEN_DELTA_EXPIRATION_TIME);
         return expiredAt;
     }
 

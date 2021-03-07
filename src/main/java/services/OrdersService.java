@@ -2,11 +2,15 @@ package services;
 
 import interfaces.ICrudOperation;
 import models.Order;
+import utils.RestResponseBuilder;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.List;
 
+@Path("orders")
 public class OrdersService implements ICrudOperation<Order> {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -45,6 +49,9 @@ public class OrdersService implements ICrudOperation<Order> {
     @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response readList() {
-        return null;
+        List<Order> orders = new ArrayList<>();
+        Response response = new RestResponseBuilder(200).withEntity(orders).create();
+
+        return response;
     }
 }

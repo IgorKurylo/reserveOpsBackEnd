@@ -6,13 +6,13 @@ import security.AccessTokenGenerator;
 import models.*;
 import security.AuthenticationTokenDetails;
 import utils.IConverter;
+import utils.RestResponseBuilder;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.UnsupportedEncodingException;
-import java.util.Optional;
 
 @Path("auth")
 public class AuthService {
@@ -41,10 +41,14 @@ public class AuthService {
             AuthenticationTokenDetails details = new AuthenticationTokenDetails(user);
             String token = this.accessTokenGenerator.generate(details);
             baseResponse = new BaseResponse<>(new AccessToken(token), "", true);
-            response = Response.status(200).entity(converter.Serializable(baseResponse)).build();
+            response = new RestResponseBuilder(200)
+                    .withEntity(converter.Serializable(baseResponse))
+                    .create();
         } else {
             baseResponse = new BaseResponse<>(null, "User not exists", false);
-            response = Response.status(400).entity(converter.Serializable(baseResponse)).build();
+            response = new RestResponseBuilder(404)
+                    .withEntity(converter.Serializable(baseResponse))
+                    .create();
         }
         return response;
     }
