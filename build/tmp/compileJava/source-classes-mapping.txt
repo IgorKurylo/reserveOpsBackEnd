@@ -1,32 +1,56 @@
 application/ApplicationConfig.java
  application.ApplicationConfig
-interfaces/IBaseCrudOperation.java
- interfaces.IBaseCrudOperation
-services/UsersService.java
- services.UsersService
-repository/DatabaseConnection.java
- repository.DatabaseConnection
-services/AuthService.java
- services.AuthService
-interfaces/IDatabaseConnection.java
- interfaces.IDatabaseConnection
-interfaces/IAuthRepository.java
- interfaces.IAuthRepository
-application/Application.java
- application.Application
-jwt/AccessTokenGenerator.java
- jwt.AccessTokenGenerator
-jwt/AuthenticationFilter.java
- jwt.AuthenticationFilter
-models/User.java
- models.User
+application/GsonProvider.java
+ application.GsonProvider
 repository/AuthRepository.java
  repository.AuthRepository
-models/AccessToken.java
- models.AccessToken
-models/AuthenticationTokenDetails.java
- models.AuthenticationTokenDetails
+services/UsersService.java
+ services.UsersService
+repository/contracts/IDatabaseConnection.java
+ repository.contracts.IDatabaseConnection
+repository/contracts/IAuthRepository.java
+ repository.contracts.IAuthRepository
 models/BaseResponse.java
  models.BaseResponse
+utils/JsonConverter.java
+ utils.JsonConverter
+models/AuthCredentials.java
+ models.AuthCredentials
+models/User.java
+ models.User
+models/AccessToken.java
+ models.AccessToken
+services/OrdersService.java
+ services.OrdersService
 application/ApplicationBinder.java
  application.ApplicationBinder
+utils/Const.java
+ utils.Const
+interfaces/ICrudOperation.java
+ interfaces.ICrudOperation
+application/Application.java
+ application.Application
+repository/OrderRepository.java
+ repository.OrderRepository
+models/Restaurant.java
+ models.Restaurant
+repository/contracts/IOrderRepository.java
+ repository.contracts.IOrderRepository
+utils/IConverter.java
+ utils.IConverter
+repository/DatabaseConnection.java
+ repository.DatabaseConnection
+models/Role.java
+ models.Role
+exceptions/InvalidTokenException.java
+ exceptions.InvalidTokenException
+models/Order.java
+ models.Order
+security/AuthenticationFilter.java
+ security.AuthenticationFilter
+security/AccessTokenGenerator.java
+ security.AccessTokenGenerator
+security/AuthenticationTokenDetails.java
+ security.AuthenticationTokenDetails
+services/AuthService.java
+ services.AuthService

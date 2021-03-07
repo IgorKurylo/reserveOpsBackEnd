@@ -12,8 +12,9 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.UnsupportedEncodingException;
+import java.util.Optional;
 
-@Path("/auth")
+@Path("auth")
 public class AuthService {
     @Inject
     IAuthRepository repository;
@@ -35,7 +36,7 @@ public class AuthService {
     public Response authentication(AuthCredentials authCredentials) {
         Response response = null;
         BaseResponse<AccessToken> baseResponse;
-        User user = repository.authentication(authCredentials.getUserName(), authCredentials.getPassword());
+        User user = repository.authentication(authCredentials);
         if (user != null) {
             AuthenticationTokenDetails details = new AuthenticationTokenDetails(user);
             String token = this.accessTokenGenerator.generate(details);

@@ -24,12 +24,12 @@ public class AuthenticationTokenDetails {
 
     private ZonedDateTime expiredAt() {
         ZonedDateTime expiredAt = ZonedDateTime.now();
-        expiredAt.plusMinutes(10); //TODO: load from settings
+        expiredAt.plusMinutes(Integer.parseInt(ApplicationConfig.getInstance().getValue("token_exp")));
         return expiredAt;
     }
 
     private String issuer() {
-        return UUID.fromString(ApplicationConfig.getInstance().getValue("token_issuer")).toString();
+        return UUID.randomUUID().toString();
     }
 
     public User getUser() {
@@ -71,4 +71,6 @@ public class AuthenticationTokenDetails {
     public void setTokenSecret(String tokenSecret) {
         this.tokenSecret = tokenSecret;
     }
+
+
 }

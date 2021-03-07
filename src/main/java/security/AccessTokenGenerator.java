@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import exceptions.InvalidTokenException;
+import models.Role;
 import models.User;
 
 import java.io.UnsupportedEncodingException;
@@ -24,9 +25,11 @@ public class AccessTokenGenerator {
 
         token = JWT.create()
                 .withIssuer(details.getIssuer())
+                .withSubject(details.getUser().getUserName())
                 .withIssuedAt(Date.from(details.getIssuedAt().toInstant()))
                 .withExpiresAt(Date.from(details.getExpiredAt().toInstant()))
                 .withClaim("Id", details.getUser().getId())
+                .withClaim("Role", details.getUser().getRole().name())
                 .sign(algorithm);
 
         return token;
@@ -39,7 +42,7 @@ public class AccessTokenGenerator {
             JWTVerifier verifier = JWT.require(algorithm).withIssuer(jwt.getIssuer()).build();
             DecodedJWT verifiedJWT = verifier.verify(token);
             if (verifiedJWT != null) {
-                details = new AuthenticationTokenDetails(new User(jwt.getClaim("Id").asInt()));
+                details = new AuthenticationTokenDetails(new User(jwt.getClaim("Id").asInt(), "igor", Role.Admin));
             }
         } catch (JWTVerificationException ex) {
             throw new InvalidTokenException("Invalid Token");

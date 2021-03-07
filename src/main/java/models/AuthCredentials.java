@@ -1,8 +1,11 @@
 package models;
 
-public class AuthCredentials {
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+public class AuthCredentials {
+    @JsonProperty("userName")
     String userName;
+    @JsonProperty("password")
     String password;
 
     public AuthCredentials(String userName, String password) {
