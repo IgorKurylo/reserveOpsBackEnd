@@ -1,20 +1,32 @@
 application/ApplicationConfig.java
  application.ApplicationConfig
-interfaces/IBaseCrudOperation.java
- interfaces.IBaseCrudOperation
+jwt/AuthenticationFilter.java
+ jwt.AuthenticationFilter
 services/UsersService.java
  services.UsersService
 repository/AuthRepository.java
  repository.AuthRepository
-services/AuthService.java
- services.AuthService
 interfaces/IDatabaseConnection.java
  interfaces.IDatabaseConnection
-interfaces/IAuthRepository.java
- interfaces.IAuthRepository
-application/Application.java
- application.Application
 repository/DatabaseConnection.java
  repository.DatabaseConnection
+interfaces/IBaseCrudOperation.java
+ interfaces.IBaseCrudOperation
+models/AuthenticationTokenDetails.java
+ models.AuthenticationTokenDetails
+models/BaseResponse.java
+ models.BaseResponse
+jwt/AccessTokenGenerator.java
+ jwt.AccessTokenGenerator
+models/User.java
+ models.User
+services/AuthService.java
+ services.AuthService
+models/AccessToken.java
+ models.AccessToken
+application/Application.java
+ application.Application
 application/ApplicationBinder.java
  application.ApplicationBinder
+interfaces/IAuthRepository.java
+ interfaces.IAuthRepository
