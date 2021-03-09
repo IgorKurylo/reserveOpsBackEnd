@@ -5,7 +5,11 @@ public class User {
     String lastName;
     String phoneNumber;
     String userName;
+    Role role;
     int Id;
+
+    public User() {
+    }
 
     public User(String firstName, String lastName, String phoneNumber, String userName, int id) {
         this.firstName = firstName;
@@ -13,6 +17,12 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.userName = userName;
         Id = id;
+    }
+
+    public User(int id, String userName, Role role) {
+        Id = id;
+        this.userName = userName;
+        this.role = role;
     }
 
     public String getFirstName() {
@@ -53,5 +63,13 @@ public class User {
 
     public void setId(int id) {
         Id = id;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
