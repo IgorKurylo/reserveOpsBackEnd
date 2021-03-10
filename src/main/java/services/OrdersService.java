@@ -2,16 +2,22 @@ package services;
 
 import interfaces.ICrudOperation;
 import models.Order;
+import repository.contracts.IOrderRepository;
 import utils.RestResponseBuilder;
 
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-@Path("orders")
+@Path("order")
 public class OrdersService implements ICrudOperation<Order> {
+
+    @Inject
+    IOrderRepository orderRepository;
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -49,9 +55,7 @@ public class OrdersService implements ICrudOperation<Order> {
     @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response readList() {
-        List<Order> orders = new ArrayList<>();
-        Response response = new RestResponseBuilder(200).withEntity(orders).create();
-
-        return response;
+        List<Order> orders = orderRepository.getOrders();
+        return new RestResponseBuilder(200).withEntity(orders).create();
     }
 }

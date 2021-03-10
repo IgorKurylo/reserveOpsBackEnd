@@ -23,7 +23,7 @@ public class AuthRepository implements IAuthRepository {
     @Override
     public User authentication(AuthCredentials authCredentials) {
         Optional<Connection> connection = this._connection.open();
-        String _authQuery = String.format(_AUTH_QUERY, Const.USER_TABLE,authCredentials.getUserName());
+        String _authQuery = String.format(_AUTH_QUERY, Const.USER_TABLE, authCredentials.getUserName());
         User u = new User();
         connection.ifPresent(conn -> {
             try {
@@ -42,6 +42,8 @@ public class AuthRepository implements IAuthRepository {
 
             } catch (SQLException ex) {
                 ex.printStackTrace();
+            } finally {
+                _connection.close();
             }
 
         });
