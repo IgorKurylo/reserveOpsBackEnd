@@ -1,56 +1,32 @@
 application/ApplicationConfig.java
  application.ApplicationConfig
-application/GsonProvider.java
- application.GsonProvider
-models/Restaurant.java
- models.Restaurant
-repository/contracts/IDatabaseConnection.java
- repository.contracts.IDatabaseConnection
-repository/contracts/IAuthRepository.java
- repository.contracts.IAuthRepository
-models/BaseResponse.java
- models.BaseResponse
-utils/JsonConverter.java
- utils.JsonConverter
-models/AuthCredentials.java
- models.AuthCredentials
-models/User.java
- models.User
-models/AccessToken.java
- models.AccessToken
-services/OrdersService.java
- services.OrdersService
-utils/RestResponseBuilder.java
- utils.RestResponseBuilder
-utils/Const.java
- utils.Const
-interfaces/ICrudOperation.java
- interfaces.ICrudOperation
-utils/IConverter.java
- utils.IConverter
-repository/OrderRepository.java
- repository.OrderRepository
-application/ApplicationBinder.java
- application.ApplicationBinder
-repository/contracts/IOrderRepository.java
- repository.contracts.IOrderRepository
+jwt/AuthenticationFilter.java
+ jwt.AuthenticationFilter
+services/UsersService.java
+ services.UsersService
 repository/AuthRepository.java
  repository.AuthRepository
+interfaces/IDatabaseConnection.java
+ interfaces.IDatabaseConnection
 repository/DatabaseConnection.java
  repository.DatabaseConnection
-models/Role.java
- models.Role
-exceptions/InvalidTokenException.java
- exceptions.InvalidTokenException
-models/Order.java
- models.Order
-application/Application.java
- application.Application
-security/AuthenticationFilter.java
- security.AuthenticationFilter
-security/AccessTokenGenerator.java
- security.AccessTokenGenerator
-security/AuthenticationTokenDetails.java
- security.AuthenticationTokenDetails
+interfaces/IBaseCrudOperation.java
+ interfaces.IBaseCrudOperation
+models/AuthenticationTokenDetails.java
+ models.AuthenticationTokenDetails
+models/BaseResponse.java
+ models.BaseResponse
+jwt/AccessTokenGenerator.java
+ jwt.AccessTokenGenerator
+models/User.java
+ models.User
 services/AuthService.java
  services.AuthService
+models/AccessToken.java
+ models.AccessToken
+application/Application.java
+ application.Application
+application/ApplicationBinder.java
+ application.ApplicationBinder
+interfaces/IAuthRepository.java
+ interfaces.IAuthRepository
