@@ -16,7 +16,7 @@ public interface ICrudOperation<E> {
     Response delete();
 
 
-    Response read();
+    Response read(int id);
 
     Response readList();
 

@@ -47,7 +47,7 @@ public class OrdersService implements ICrudOperation<Order> {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Override
-    public Response read() {
+    public Response read(int Id) {
         return null;
     }
 

@@ -9,9 +9,9 @@ public class Order {
     private Restaurant restaurant;
     private int guest;
     private int tableId;
-    private String orderStatus;
+    private OrderStatus orderStatus;
 
-    public Order(int id, String date, String time, User user, Restaurant restaurant, int guest, int tableId, String orderStatus) {
+    public Order(int id, String date, String time, User user, Restaurant restaurant, int guest, int tableId, OrderStatus orderStatus) {
         Id = id;
         this.date = date;
         this.time = time;
@@ -81,11 +81,11 @@ public class Order {
         this.tableId = tableId;
     }
 
-    public String getOrderStatus() {
+    public OrderStatus getOrderStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(String orderStatus) {
+    public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
     }
 }

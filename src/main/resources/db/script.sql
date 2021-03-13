@@ -1,17 +1,19 @@
-
 SET search_path to reserveops;
 
 CREATE TABLE "User"
 (
-    UsrId       SERIAL primary key,
+    Id          SERIAL PRIMARY KEY,
     firstName   VARCHAR(50),
     lastName    VARCHAR(50),
-    phoneNumber VARCHAR(10)
+    phoneNumber VARCHAR(10),
+    password    VARCHAR(8) UNIQUE,
+    role        VARCHAR(8)
 );
+
 
 CREATE TABLE Restaurant
 (
-    RestId        SERIAL primary key,
+    RestId        SERIAL PRIMARY KEY,
     RestName      VARCHAR(100) UNIQUE,
 --     RestNo        INTEGER,
     RestArea      VARCHAR(15),
@@ -22,7 +24,7 @@ CREATE TABLE Restaurant
 
 CREATE TABLE Rest_Table
 (
-    TblId   SERIAL primary key,
+    TblId   SERIAL PRIMARY KEY,
     RestId  INTEGER,
     TblNo   INTEGER,
     SeatsNo INTEGER,
@@ -33,7 +35,7 @@ CREATE TABLE Rest_Table
 
 CREATE TABLE Rest_Table_Dynamic
 (
-    TblId       SERIAL primary key,
+    TblId       SERIAL PRIMARY KEY,
     RestId      INTEGER,
     TblNo       INTEGER,
     SeatsNo     INTEGER,
@@ -49,7 +51,7 @@ CREATE TYPE Order_Status AS ENUM ('Approved','Waiting','Deleted');
 
 CREATE TABLE "Order"
 (
-    OrdId   SERIAL primary key,
+    OrdId   SERIAL PRIMARY KEY,
     UsrId   INTEGER,
     RestId  INTEGER,
     TblId   INTEGER,
@@ -59,7 +61,7 @@ CREATE TABLE "Order"
     OrdSts  Order_Status,
     CONSTRAINT fk_User
         FOREIGN KEY (UsrId)
-            REFERENCES "User" (UsrId),
+            REFERENCES "User" (Id),
     CONSTRAINT fk_Restaurant
         FOREIGN KEY (RestId)
             REFERENCES Restaurant (RestId),
