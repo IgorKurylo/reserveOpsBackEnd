@@ -42,7 +42,8 @@ public class AccessTokenGenerator {
             JWTVerifier verifier = JWT.require(algorithm).withIssuer(jwt.getIssuer()).build();
             DecodedJWT verifiedJWT = verifier.verify(token);
             if (verifiedJWT != null) {
-                details = new AuthenticationTokenDetails(new User(jwt.getClaim("Id").asInt(), "igor", Role.Admin));
+                details = new AuthenticationTokenDetails(new User(jwt.getClaim("Id").asInt(),
+                        jwt.getSubject(), Role.valueOf(jwt.getClaim("Role").asString())));
             }
         } catch (JWTVerificationException ex) {
             throw new InvalidTokenException(String.format("Invalid Token Cause %s", ex.toString()));

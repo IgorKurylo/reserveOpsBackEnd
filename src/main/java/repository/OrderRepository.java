@@ -13,10 +13,13 @@ import java.util.Optional;
 
 public class OrderRepository implements IOrderRepository {
 
-    private final String _ORDER_BY_ID_QUERY = "SELECT * FROM Id=%d";
-    private final String _ORDER_DELETE = "DELETE FROM Order WHERE Id = ?";
-    private final String _ORDER_UPDATE = "";
-    private final String _ORDER_CREATE = "";
+    private final String _ORDER_BY_ID_QUERY = "SELECT * FROM reserveops.\"Order\" WHERE Id = %d";
+    private final String _ORDER_DELETE = "DELETE FROM reserveops.\"Order\" WHERE Id = ?";
+    private final String _ORDER_UPDATE_METADATA = "UPDATE reserveops.\"Order\" SET orddate=?,SET ordtime=? guest=? WHERE id=?";
+    private final String _ORDER_UPDATE_STATUS = "UPDATE reserveops.\"Order\" SET ordsts=? WHERE id=?";
+
+    private final String _ORDER_CREATE = "INSERT INTO reserveops.\"Order\" " +
+            "(ordid, usrid, restid, tblid, orddate, ordtime, guests, ordsts) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     @Inject
     IDatabaseConnection _connection;
@@ -61,11 +64,18 @@ public class OrderRepository implements IOrderRepository {
     public Order getOrder(int id) {
         Optional<Connection> connection = this._connection.open();
         String _orderQuery = String.format(_ORDER_BY_ID_QUERY, id);
+        Order order=new Order();
         connection.ifPresent(conn -> {
             Statement statement = null;
             try {
                 statement = conn.createStatement();
                 ResultSet resultSet = statement.executeQuery(_orderQuery);
+                while (resultSet.next()){
+                    order.setId(id);
+                    order.setGuest(resultSet.getInt("Guests"));
+                    order.setOrderStatus(resultSet.getString("ordSts"));
+                    order.setTableId(resultSet.getInt("TblId"));
+                }
                 //TODO: get orders
             } catch (SQLException ex) {
                 ex.printStackTrace();
