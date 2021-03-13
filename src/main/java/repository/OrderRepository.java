@@ -76,7 +76,7 @@ public class OrderRepository implements IOrderRepository {
                     order.setOrderStatus(resultSet.getString("ordSts"));
                     order.setTableId(resultSet.getInt("TblId"));
                 }
-                //TODO: get orders
+
             } catch (SQLException ex) {
                 ex.printStackTrace();
             } finally {
