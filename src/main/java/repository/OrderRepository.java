@@ -64,16 +64,16 @@ public class OrderRepository implements IOrderRepository {
     public Order getOrder(int id) {
         Optional<Connection> connection = this._connection.open();
         String _orderQuery = String.format(_ORDER_BY_ID_QUERY, id);
-        Order order=new Order();
+        Order order = new Order();
         connection.ifPresent(conn -> {
             Statement statement = null;
             try {
                 statement = conn.createStatement();
                 ResultSet resultSet = statement.executeQuery(_orderQuery);
-                while (resultSet.next()){
+                while (resultSet.next()) {
                     order.setId(id);
                     order.setGuest(resultSet.getInt("Guests"));
-                    order.setOrderStatus(resultSet.getString("ordSts"));
+                    //order.setOrderStatus(resultSet.getString("ordSts"));
                     order.setTableId(resultSet.getInt("TblId"));
                 }
 
@@ -83,7 +83,7 @@ public class OrderRepository implements IOrderRepository {
                 _connection.close();
             }
         });
-        return null;
+        return order;
     }
 
     @Override
