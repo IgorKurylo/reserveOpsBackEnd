@@ -21,6 +21,8 @@ public class OrderRepository implements IOrderRepository {
     private final String _ORDER_CREATE = "INSERT INTO reserveops.\"Order\" " +
             "(ordid, usrid, restid, tblid, orddate, ordtime, guests, ordsts) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
+    private final String _ORDER_NOT_AVAILABLE = "SELECT OrdId FROM reserveops.\"Order\" WHERE OrdDate=%s and OrdTime=%s";
+
     @Inject
     IDatabaseConnection _connection;
 
@@ -28,6 +30,27 @@ public class OrderRepository implements IOrderRepository {
     public int create(Order order) {
         Optional<Connection> connection = this._connection.open();
         int orderId = 0;
+        //TODO: check if the order is available with date and time
+        if (connection.isPresent()) {
+            Connection conn = connection.get();
+            Statement statement = null;
+            try {
+
+                statement = conn.createStatement();
+                String _query = String.format(_ORDER_NOT_AVAILABLE, order.getDate(), order.getTime());
+                ResultSet resultSet = statement.executeQuery(_query);
+                while (resultSet.next()) {
+                    orderId = resultSet.getInt("OrdId");
+                }
+                if (orderId != 0) {
+
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            } finally {
+                _connection.close();
+            }
+        }
         return orderId;
     }
 

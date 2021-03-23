@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IRestaurantRepository {
 
-    List<Restaurant> getRestaurants(int area);
+    List<Restaurant> getRestaurants(List<String> areas);
 
 
 }
