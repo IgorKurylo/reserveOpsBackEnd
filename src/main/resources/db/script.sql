@@ -14,11 +14,14 @@ CREATE TABLE "User"
 CREATE TABLE Restaurant
 (
     RestId        SERIAL PRIMARY KEY,
-    RestName      VARCHAR(100) UNIQUE,
---     RestNo        INTEGER,
-    RestArea      VARCHAR(15),
+    RestName      VARCHAR(100),
+    RestArea      Rest_Area,
     WorkTimeStart TIME,
-    WorkTimeEnd   TIME
+    WorkTimeEnd   TIME,
+    Address  Varchar(150) ,
+    URL  VARCHAR(500),
+    WebSite VARCHAR(500),
+    PhoneNo varchar(10)
 
 );
 
@@ -48,6 +51,7 @@ CREATE TABLE Rest_Table_Dynamic
 );
 
 CREATE TYPE Order_Status AS ENUM ('Approved','Waiting','Deleted');
+CREATE TYPE Rest_Area AS ENUM ('NORTH','HAIFA','TELAVIV','ASHDOD_ASHKELON','SOUTH','EILAT');
 
 CREATE TABLE "Order"
 (
