@@ -19,7 +19,7 @@ CREATE TABLE Restaurant
     WorkTimeStart TIME,
     WorkTimeEnd   TIME,
     Address  Varchar(150) ,
-    URL  VARCHAR(500),
+    ImageURL  VARCHAR(500),
     WebSite VARCHAR(500),
     PhoneNo varchar(10)
 
