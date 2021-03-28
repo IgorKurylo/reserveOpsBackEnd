@@ -1,5 +1,7 @@
 package repository;
 
+import models.Area;
+import models.AvailableTime;
 import models.Restaurant;
 import repository.contracts.IDatabaseConnection;
 import repository.contracts.IRestaurantRepository;
@@ -17,18 +19,18 @@ import java.util.Optional;
 public class RestaurantRepository implements IRestaurantRepository {
 
     final String RESTAURANT_QUERY = "SELECT RestId,RestName,RestArea,WorkTimeStart,WorkTimeEnd,Address," +
-            "ImageURL,WebSite,PhoneNo FROM reserveops.\"Restaurant\"";
-    final String WHERE = "WHERE RestArea = '%s'";
+            "ImageURL,WebSite,PhoneNo FROM Restaurant";
+    final String WHERE = " WHERE RestArea IN (%s)";
     @Inject
     IDatabaseConnection _connection;
 
     @Override
-    public List<Restaurant> getRestaurants(List<String> areas) {
+    public List<Restaurant> getRestaurants(List<Area> areas) {
         List<Restaurant> restaurantList = new ArrayList<>();
         Optional<Connection> connection = this._connection.open();
         String _restaurantQuery = "";
         if (areas.size() > 0) {
-            _restaurantQuery = String.format(RESTAURANT_QUERY + WHERE, areas.get(0));
+            _restaurantQuery = String.format(RESTAURANT_QUERY + WHERE, joinAreas(areas));
         } else {
             _restaurantQuery = RESTAURANT_QUERY;
         }
@@ -47,7 +49,8 @@ public class RestaurantRepository implements IRestaurantRepository {
                             new ArrayList<>(),
                             Converters.ConvertTimeToString(resultSet.getTime("WorkTimeStart")),
                             Converters.ConvertTimeToString(resultSet.getTime("WorkTimeEnd")),
-                            resultSet.getString("PhoneNo"), resultSet.getString("WebSite"));
+                            resultSet.getString("PhoneNo"),
+                            resultSet.getString("WebSite"));
                     restaurantList.add(restaurant);
                 }
             } catch (SQLException ex) {
@@ -58,5 +61,17 @@ public class RestaurantRepository implements IRestaurantRepository {
         });
 
         return restaurantList;
+    }
+
+
+
+    private String joinAreas(List<Area> areas) {
+        StringBuilder builder = new StringBuilder();
+        for (Area area : areas) {
+            builder.append(String.format("'%s'",area.getName()));
+            builder.append(",");
+        }
+        builder.deleteCharAt(builder.length() - 1);
+        return builder.toString();
     }
 }

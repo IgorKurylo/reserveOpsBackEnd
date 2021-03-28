@@ -1,6 +1,7 @@
-SET search_path to reserveops;
 
-CREATE TABLE "User"
+CREATE TYPE Order_Status AS ENUM ('Approved','Waiting','Deleted');
+CREATE TYPE Rest_Area AS ENUM ('NORTH','HAIFA','TELAVIV','ASHDOD_ASHKELON','SOUTH','EILAT');
+CREATE TABLE IF NOT EXISTS  "User"
 (
     Id          SERIAL PRIMARY KEY,
     firstName   VARCHAR(50),
@@ -11,7 +12,7 @@ CREATE TABLE "User"
 );
 
 
-CREATE TABLE Restaurant
+CREATE TABLE IF NOT EXISTS Restaurant
 (
     RestId        SERIAL PRIMARY KEY,
     RestName      VARCHAR(100),
@@ -25,7 +26,7 @@ CREATE TABLE Restaurant
 
 );
 
-CREATE TABLE Rest_Table
+CREATE TABLE IF NOT EXISTS Rest_Table
 (
     TblId   SERIAL PRIMARY KEY,
     RestId  INTEGER,
@@ -36,7 +37,7 @@ CREATE TABLE Rest_Table
             REFERENCES Restaurant (RestId)
 );
 
-CREATE TABLE Rest_Table_Dynamic
+CREATE TABLE IF NOT EXISTS Rest_Table_Dynamic
 (
     TblId       SERIAL PRIMARY KEY,
     RestId      INTEGER,
@@ -50,10 +51,8 @@ CREATE TABLE Rest_Table_Dynamic
             REFERENCES Restaurant (RestId)
 );
 
-CREATE TYPE Order_Status AS ENUM ('Approved','Waiting','Deleted');
-CREATE TYPE Rest_Area AS ENUM ('NORTH','HAIFA','TELAVIV','ASHDOD_ASHKELON','SOUTH','EILAT');
 
-CREATE TABLE "Order"
+CREATE TABLE IF NOT EXISTS "Order"
 (
     OrdId   SERIAL PRIMARY KEY,
     UsrId   INTEGER,

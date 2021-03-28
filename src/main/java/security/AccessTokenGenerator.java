@@ -25,7 +25,7 @@ public class AccessTokenGenerator {
 
         token = JWT.create()
                 .withIssuer(details.getIssuer())
-                .withSubject(details.getUser().getUserName())
+                .withSubject(details.getUser().getPhoneNumber())
                 .withIssuedAt(Date.from(details.getIssuedAt().toInstant()))
                 .withExpiresAt(Date.from(details.getExpiredAt().toInstant()))
                 .withClaim("Id", details.getUser().getId())

@@ -1,6 +1,7 @@
 package repository.contracts;
 
 import exceptions.OrderException;
+import models.AvailableTime;
 import models.Order;
 
 import java.util.List;
@@ -12,6 +13,8 @@ public interface IOrderRepository {
     void delete(int id) throws OrderException;
     Order getOrder(int id);
     List<Order> getOrders();
+    List<AvailableTime> availableTimes(int restaurantId,String date);
+
 
 
 }

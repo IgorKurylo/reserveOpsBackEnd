@@ -25,7 +25,7 @@ public class DatabaseConnection implements IDatabaseConnection {
         try {
             Class.forName("org.postgresql.Driver");
             connection = Optional.ofNullable(DriverManager.getConnection(url, user, password));
-            System.out.printf("Connected to %s", url);
+            System.out.printf("Connected to %s \n", url);
         } catch (SQLException | ClassNotFoundException e) {
             System.out.println(e.getMessage());
         }

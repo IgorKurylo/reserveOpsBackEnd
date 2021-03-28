@@ -20,12 +20,13 @@ public class Restaurant {
     private List<RestaurantTables> restaurantTablesList;
     @SerializedName("StartTime")
     private String workTimeStart;
-    @SerializedName("StartTime")
+    @SerializedName("EndTime")
     private String workTimeEnd;
     @SerializedName("PhoneNumber")
     private String phoneNumber;
     @SerializedName("WebSite")
     private String webSite;
+
 
     public Restaurant(int id, String restaurantName, String area, String address, String imageUrl, List<RestaurantTables> restaurantTablesList, String workTimeStart, String workTimeEnd, String phoneNumber, String webSite) {
         Id = id;

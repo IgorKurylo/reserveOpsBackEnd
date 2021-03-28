@@ -37,7 +37,6 @@ public class AuthRepository implements IAuthRepository {
                     int Id = resultSet.getInt("Id");
                     u.setRole(Role.Admin);
                     u.setId(Id);
-                    u.setUserName(userName);
                 }
 
             } catch (SQLException ex) {

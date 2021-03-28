@@ -6,7 +6,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-public interface ICrudOperation<E> {
+public interface ICrudBaseOperation<E> {
 
 
     Response create(E object);

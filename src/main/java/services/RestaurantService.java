@@ -1,12 +1,27 @@
 package services;
 
-import interfaces.ICrudOperation;
-import models.Restaurant;
+import interfaces.ICrudBaseOperation;
+import interfaces.ICurdExtendOperation;
+import models.*;
+import models.requests.RestaurantListRequest;
+import models.response.AvailableTimeResponse;
+import models.response.RestaurantResponse;
+import repository.contracts.IRestaurantRepository;
+import utils.IConverter;
+import utils.RestResponseBuilder;
 
+import javax.inject.Inject;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.List;
 
-public class RestaurantService implements ICrudOperation<Restaurant>
-{
+@Path("restaurant")
+public class RestaurantService implements ICrudBaseOperation<Restaurant> {
+    @Inject
+    IRestaurantRepository _repository;
+
     @Override
     public Response create(Restaurant object) {
         return null;
@@ -31,4 +46,20 @@ public class RestaurantService implements ICrudOperation<Restaurant>
     public Response readList() {
         return null;
     }
+
+    @POST
+    @Path("list")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response listByAreas(RestaurantListRequest request) {
+
+        List<Restaurant> restaurantList = _repository.getRestaurants(request.getAreas());
+        BaseResponse<RestaurantResponse> response =
+                new BaseResponse<>(new RestaurantResponse(restaurantList), "", true);
+        return new RestResponseBuilder(200).withEntity(response).create();
+    }
+
+
+
+
 }
