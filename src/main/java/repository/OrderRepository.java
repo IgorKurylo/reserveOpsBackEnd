@@ -158,13 +158,14 @@ public class OrderRepository implements IOrderRepository {
         Calendar c1 = Calendar.getInstance();
         Calendar c2 = Calendar.getInstance();
         try {
-            java.util.Date startTime = Converters.convertTimeFromString(start);
-            java.util.Date endTime = Converters.convertTimeFromString(end);
-            c1.setTime(startTime);
-            c2.setTime(endTime);
-            int startHour = c1.get(Calendar.HOUR_OF_DAY);
-            int endHour = c2.get(Calendar.HOUR_OF_DAY) == 0 ? 24 : c2.get(Calendar.HOUR_OF_DAY);
+
             if (notAvailableTimes.size() > 0) {
+                java.util.Date startTime = Converters.convertTimeFromString(start);
+                java.util.Date endTime = Converters.convertTimeFromString(end);
+                c1.setTime(startTime);
+                c2.setTime(endTime);
+                int startHour = c1.get(Calendar.HOUR_OF_DAY);
+                int endHour = c2.get(Calendar.HOUR_OF_DAY) == 0 ? 24 : c2.get(Calendar.HOUR_OF_DAY);
                 while (startHour <= endHour) {
                     insertToAvailableTimeList(list, startHour);
                     startHour++;
