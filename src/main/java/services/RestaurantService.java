@@ -1,20 +1,16 @@
 package services;
 
 import interfaces.ICrudBaseOperation;
-import interfaces.ICurdExtendOperation;
 import models.*;
 import models.requests.RestaurantListRequest;
-import models.response.AvailableTimeResponse;
 import models.response.RestaurantResponse;
 import repository.contracts.IRestaurantRepository;
-import utils.IConverter;
 import utils.RestResponseBuilder;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.List;
 
 @Path("restaurant")

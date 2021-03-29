@@ -1,6 +1,7 @@
 package utils;
 
 import com.google.gson.Gson;
+import interfaces.IConverter;
 
 public class JsonConverter implements IConverter {
     Gson gson;

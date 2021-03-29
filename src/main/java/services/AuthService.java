@@ -5,7 +5,7 @@ import repository.contracts.IAuthRepository;
 import security.AccessTokenGenerator;
 import models.*;
 import security.AuthenticationTokenDetails;
-import utils.IConverter;
+import interfaces.IConverter;
 import utils.RestResponseBuilder;
 
 import javax.inject.Inject;

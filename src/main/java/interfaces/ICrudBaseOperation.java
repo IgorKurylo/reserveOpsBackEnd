@@ -1,10 +1,10 @@
 package interfaces;
 
-import models.Order;
-
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 public interface ICrudBaseOperation<E> {
 
@@ -19,5 +19,6 @@ public interface ICrudBaseOperation<E> {
     Response read(int id);
 
     Response readList();
+
 
 }

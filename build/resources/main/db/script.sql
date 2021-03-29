@@ -1,5 +1,5 @@
 
-CREATE TYPE Order_Status AS ENUM ('Approved','Waiting','Deleted');
+CREATE TYPE Reserve_Status AS ENUM ('Approved','Waiting','Deleted');
 CREATE TYPE Rest_Area AS ENUM ('NORTH','HAIFA','TELAVIV','ASHDOD_ASHKELON','SOUTH','EILAT');
 CREATE TABLE IF NOT EXISTS  "User"
 (
@@ -52,16 +52,16 @@ CREATE TABLE IF NOT EXISTS Rest_Table_Dynamic
 );
 
 
-CREATE TABLE IF NOT EXISTS "Order"
+CREATE TABLE IF NOT EXISTS Reserve
 (
-    OrdId   SERIAL PRIMARY KEY,
+    Id   SERIAL PRIMARY KEY,
     UsrId   INTEGER,
     RestId  INTEGER,
     TblId   INTEGER,
-    OrdDate DATE,
-    OrdTime TIME,
+    ReserveDate DATE,
+    ReserveTime TIME,
     Guests  INTEGER,
-    OrdSts  Order_Status,
+    Status  Reserve_Status,
     CONSTRAINT fk_User
         FOREIGN KEY (UsrId)
             REFERENCES "User" (Id),
