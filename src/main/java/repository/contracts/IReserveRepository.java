@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IReserveRepository {
 
-    int create(Reserve reserve);
+    Reserve create(Reserve reserve,int userId);
 
     Reserve update(Reserve reserve);
 

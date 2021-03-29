@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS Reserve
     ReserveTime TIME,
     Guests      INTEGER,
     Status      Reserve_Status,
+    Comments    VARCHAR(500),
     CONSTRAINT fk_User
         FOREIGN KEY (UsrId)
             REFERENCES "User" (Id),

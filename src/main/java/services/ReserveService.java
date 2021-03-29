@@ -2,9 +2,11 @@ package services;
 
 import interfaces.ICrudBaseOperation;
 import models.AvailableTime;
+import models.BaseRequest;
 import models.BaseResponse;
 import models.Reserve;
 import models.response.AvailableTimeResponse;
+import models.response.ReserveResponse;
 import repository.contracts.IReserveRepository;
 import utils.RestResponseBuilder;
 
@@ -25,9 +27,11 @@ public class ReserveService implements ICrudBaseOperation<Reserve> {
     @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response create(Reserve reserve) {
-        return null;
-    }
+        Reserve newReserve = _repository.create(reserve, 1);
+        BaseResponse<ReserveResponse> response = new BaseResponse<>(new ReserveResponse(newReserve), "", true);
+        return new RestResponseBuilder(201).withEntity(response).create();
 
+    }
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)

@@ -1,28 +1,46 @@
 package models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Reserve {
 
     private int Id;
+    @SerializedName("date")
     private String date;
+    @SerializedName("time")
     private String time;
-    private User user;
+    @SerializedName("restaurant")
     private Restaurant restaurant;
+    @SerializedName("guest")
     private int guest;
+    @SerializedName("comment")
+    private String comment;
     private int tableId;
     private ReserveStatus reserveStatus;
 
-    public Reserve(int id, String date, String time, User user, Restaurant restaurant, int guest, int tableId, ReserveStatus orderStatus) {
-        Id = id;
+    public Reserve(String date, String time, Restaurant restaurant, int guest, int tableId, ReserveStatus reserveStatus, String comment) {
         this.date = date;
         this.time = time;
-        this.user = user;
         this.restaurant = restaurant;
         this.guest = guest;
         this.tableId = tableId;
-        this.reserveStatus = orderStatus;
+        this.reserveStatus = reserveStatus;
+        this.comment = comment;
+    }
+
+    public Reserve(int id) {
+        Id = id;
     }
 
     public Reserve() {
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public int getId() {
@@ -47,14 +65,6 @@ public class Reserve {
 
     public void setTime(String time) {
         this.time = time;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public Restaurant getRestaurant() {

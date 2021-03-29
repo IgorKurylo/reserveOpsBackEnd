@@ -23,7 +23,7 @@ public class ReserveRepository implements IReserveRepository {
     private final String _RESERVE_UPDATE_STATUS = "UPDATE reserve SET status=? WHERE Id=?";
 
     private final String _RESERVE_CREATE = "INSERT INTO reserve " +
-            "(usrid, restid, tblid, reservedate, reservetime, guests, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            "(usrid, restid, tblid, reservedate, reservetime, guests, status,comments) VALUES (?, ?, ?, ?, ?, ?, ?,?)";
 
     private final String _AVAILABLE_TIME = "SELECT to_char(reservetime,'HH24:MI') as reservetime, worktimestart, worktimeend " +
             "FROM (SELECT reservetime, r.restid, worktimeend, worktimestart " +
@@ -34,28 +34,30 @@ public class ReserveRepository implements IReserveRepository {
     private final String _GET_RESTAURANT_TABLES = "SELECT t.id, t.seats FROM rest_table " +
             "INNER JOIN tables t on t.id = rest_table.tblid " +
             "WHERE restid=%d order by t.seats";
-    private final String _CHECK_TABLE_AVAILABLE = "SELECT tblid FROM reserve WHERE tblid=%d and guests=%d and reservedate=%s and reservetime=%s";
+    private final String _CHECK_TABLE_AVAILABLE = "SELECT tblid FROM reserve WHERE tblid=%d and guests=%d and reservedate='%s' and reservetime='%s'";
 
     @Inject
     IDatabaseConnection _connection;
 
     @Override
-    public int create(Reserve reserve) {
+    public Reserve create(Reserve reserve, int userId) {
         Optional<Connection> connection = this._connection.open();
-        int orderId = 0;
-        int userid = 1;
-
         if (connection.isPresent()) {
             Connection conn = connection.get();
 
             try {
-                List<RestaurantTables> tables = getTables(reserve.getId(), conn);
+                List<RestaurantTables> tables = getTables(reserve.getRestaurant().getId(), conn);
                 RestaurantTables t = BusinessLogic.findTable(reserve.getGuest(), tables);
                 if (t != null) {
-                    // TODO: check if the table id not allocated in this time with same guest number
                     if (IsTableAvailable(t.getTableId(), reserve.getGuest(), reserve.getDate(), reserve.getTime(), conn)) {
-                        PreparedStatement statement = prepareReserveCreation(reserve, userid, conn);
-                        //TODO: insert the reservation
+                        reserve.setTableId(t.getTableId());
+                        PreparedStatement statement = prepareReserveCreation(reserve, userId, conn);
+                        if (statement.executeUpdate() > 0) {
+                            ResultSet generatedKeys = statement.getGeneratedKeys();
+                            if (generatedKeys.next()) {
+                                reserve.setId(generatedKeys.getInt(1));
+                            }
+                        }
                     } else {
                         //TODO: run suggestion logic
                     }
@@ -64,18 +66,19 @@ public class ReserveRepository implements IReserveRepository {
                 ex.printStackTrace();
             }
         }
-        return orderId;
+        return reserve;
     }
 
     private PreparedStatement prepareReserveCreation(Reserve reserve, int userid, Connection conn) throws SQLException {
-        PreparedStatement statement = conn.prepareStatement(_RESERVE_CREATE);
+        PreparedStatement statement = conn.prepareStatement(_RESERVE_CREATE, Statement.RETURN_GENERATED_KEYS);
         statement.setInt(1, userid);
         statement.setInt(2, reserve.getRestaurant().getId());
         statement.setInt(3, reserve.getTableId());
-        statement.setString(4, reserve.getDate());
-        statement.setString(5, reserve.getTime());
+        statement.setDate(4, Converters.toSQLDateType(reserve.getDate()));
+        statement.setTime(5, Converters.toSQLTimeType(reserve.getTime()));
         statement.setInt(6, reserve.getGuest());
         statement.setString(7, ReserveStatus.Waiting.toString());
+        statement.setString(8, reserve.getComment());
         return statement;
     }
 
@@ -221,10 +224,12 @@ public class ReserveRepository implements IReserveRepository {
 
     private boolean IsTableAvailable(int tableId, int guestRequestNumber, String date, String time, Connection conn) throws SQLException {
         Statement selectStatement;
+        boolean isAvailable = false;
         selectStatement = conn.createStatement();
         String tablesQuery = String.format(_CHECK_TABLE_AVAILABLE, tableId, guestRequestNumber, date, time);
         ResultSet resultSet = selectStatement.executeQuery(tablesQuery);
-        return !resultSet.first();
+        isAvailable = !resultSet.next();
+        return isAvailable;
     }
 
 

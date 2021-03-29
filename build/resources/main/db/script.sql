@@ -1,7 +1,6 @@
-
 CREATE TYPE Reserve_Status AS ENUM ('Approved','Waiting','Deleted');
 CREATE TYPE Rest_Area AS ENUM ('NORTH','HAIFA','TELAVIV','ASHDOD_ASHKELON','SOUTH','EILAT');
-CREATE TABLE IF NOT EXISTS  "User"
+CREATE TABLE IF NOT EXISTS "User"
 (
     Id          SERIAL PRIMARY KEY,
     firstName   VARCHAR(50),
@@ -19,29 +18,30 @@ CREATE TABLE IF NOT EXISTS Restaurant
     RestArea      Rest_Area,
     WorkTimeStart TIME,
     WorkTimeEnd   TIME,
-    Address  Varchar(150) ,
-    ImageURL  VARCHAR(500),
-    WebSite VARCHAR(500),
-    PhoneNo varchar(10)
+    Address       Varchar(150),
+    ImageURL      VARCHAR(500),
+    WebSite       VARCHAR(500),
+    PhoneNo       varchar(10)
 
 );
 
 CREATE TABLE IF NOT EXISTS Rest_Table
 (
-    TblId   SERIAL PRIMARY KEY,
-    RestId  INTEGER,
-    TblNo   INTEGER,
-    SeatsNo INTEGER,
+    TblId  INTEGER,
+    CONSTRAINT fk_Tables
+        FOREIGN KEY (TblId)
+            REFERENCES Tables (Id),
+    RestId INTEGER,
     CONSTRAINT fk_Restaurant
         FOREIGN KEY (RestId)
             REFERENCES Restaurant (RestId)
+
 );
 
 CREATE TABLE IF NOT EXISTS Rest_Table_Dynamic
 (
-    TblId       SERIAL PRIMARY KEY,
+    Id          SERIAL PRIMARY KEY,
     RestId      INTEGER,
-    TblNo       INTEGER,
     SeatsNo     INTEGER,
     CurrentDate DATE,
     StartTime   TIME,
@@ -54,14 +54,15 @@ CREATE TABLE IF NOT EXISTS Rest_Table_Dynamic
 
 CREATE TABLE IF NOT EXISTS Reserve
 (
-    Id   SERIAL PRIMARY KEY,
-    UsrId   INTEGER,
-    RestId  INTEGER,
-    TblId   INTEGER,
+    Id          SERIAL PRIMARY KEY,
+    UsrId       INTEGER,
+    RestId      INTEGER,
+    TblId       INTEGER,
     ReserveDate DATE,
     ReserveTime TIME,
-    Guests  INTEGER,
-    Status  Reserve_Status,
+    Guests      INTEGER,
+    Status      Reserve_Status,
+    Comments    VARCHAR(500),
     CONSTRAINT fk_User
         FOREIGN KEY (UsrId)
             REFERENCES "User" (Id),
@@ -73,6 +74,9 @@ CREATE TABLE IF NOT EXISTS Reserve
             REFERENCES Rest_Table (TblId)
 );
 
-
--- INSERT INTO "User"(firstName, lastName, phoneNumber)
--- VALUES ('Lena', 'Kurylo', '0547941740');
+CREATE TABLE IF NOT EXISTS Tables
+(
+    Id    SERIAL PRIMARY KEY,
+    TblNo INTEGER,
+    Seats INTEGER
+);

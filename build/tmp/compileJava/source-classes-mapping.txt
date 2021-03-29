@@ -10,8 +10,8 @@ security/AccessTokenGenerator.java
  security.AccessTokenGenerator
 repository/AuthRepository.java
  repository.AuthRepository
-models/RestaurantTables.java
- models.RestaurantTables
+services/AuthService.java
+ services.AuthService
 repository/contracts/IDatabaseConnection.java
  repository.contracts.IDatabaseConnection
 repository/RestaurantRepository.java
@@ -64,24 +64,28 @@ interfaces/ICrudBaseOperation.java
  interfaces.ICrudBaseOperation
 interfaces/IConverter.java
  interfaces.IConverter
-services/ReserveService.java
- services.ReserveService
+services/RestaurantService.java
+ services.RestaurantService
 exceptions/ReserveException.java
  exceptions.ReserveException
 models/ReserveStatus.java
  models.ReserveStatus
-repository/contracts/IReserveRepository.java
- repository.contracts.IReserveRepository
-utils/JsonConverter.java
- utils.JsonConverter
-services/RestaurantService.java
- services.RestaurantService
-models/Reserve.java
- models.Reserve
-services/AuthService.java
- services.AuthService
 application/Application.java
  application.Application
+utils/JsonConverter.java
+ utils.JsonConverter
+services/ReserveService.java
+ services.ReserveService
+repository/BusinessLogic.java
+ repository.BusinessLogic
+models/Reserve.java
+ models.Reserve
+models/response/ReserveResponse.java
+ models.response.ReserveResponse
+models/RestaurantTables.java
+ models.RestaurantTables
+repository/contracts/IReserveRepository.java
+ repository.contracts.IReserveRepository
 repository/ReserveRepository.java
  repository.ReserveRepository
 application/ApplicationBinder.java
