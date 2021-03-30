@@ -120,4 +120,19 @@ public class Restaurant {
     public void setWebSite(String webSite) {
         this.webSite = webSite;
     }
+
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "Id=" + Id +
+                ", restaurantName='" + restaurantName + '\'' +
+                ", area='" + area + '\'' +
+                ", address='" + address + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", workTimeStart='" + workTimeStart + '\'' +
+                ", workTimeEnd='" + workTimeEnd + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", webSite='" + webSite + '\'' +
+                '}';
+    }
 }

@@ -8,6 +8,7 @@ import models.RestaurantTables;
 import repository.contracts.IDatabaseConnection;
 import repository.contracts.IReserveRepository;
 import utils.Converters;
+import utils.Logs;
 
 import javax.inject.Inject;
 import java.sql.*;
@@ -38,13 +39,19 @@ public class ReserveRepository implements IReserveRepository {
 
     @Inject
     IDatabaseConnection _connection;
+    private Logs logs;
+
+    public ReserveRepository() {
+        logs = Logs.getInstance().init(ReserveRepository.class.getName());
+    }
 
     @Override
     public Reserve create(Reserve reserve, int userId) {
+
         Optional<Connection> connection = this._connection.open();
+        logs.infoLog(reserve.toString());
         if (connection.isPresent()) {
             Connection conn = connection.get();
-
             try {
                 List<RestaurantTables> tables = getTables(reserve.getRestaurant().getId(), conn);
                 RestaurantTables t = BusinessLogic.findTable(reserve.getGuest(), tables);
@@ -63,9 +70,10 @@ public class ReserveRepository implements IReserveRepository {
                     }
                 }
             } catch (SQLException ex) {
-                ex.printStackTrace();
+                logs.errorLog(ex.getMessage());
             }
         }
+        logs.infoLog(reserve.toString());
         return reserve;
     }
 
@@ -77,7 +85,7 @@ public class ReserveRepository implements IReserveRepository {
         statement.setDate(4, Converters.toSQLDateType(reserve.getDate()));
         statement.setTime(5, Converters.toSQLTimeType(reserve.getTime()));
         statement.setInt(6, reserve.getGuest());
-        statement.setString(7, ReserveStatus.Waiting.toString());
+        statement.setObject(7, ReserveStatus.Waiting.name(),Types.OTHER);
         statement.setString(8, reserve.getComment());
         return statement;
     }

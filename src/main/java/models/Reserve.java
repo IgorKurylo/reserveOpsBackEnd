@@ -98,4 +98,18 @@ public class Reserve {
     public void setReserveStatus(ReserveStatus reserveStatus) {
         this.reserveStatus = reserveStatus;
     }
+
+    @Override
+    public String toString() {
+        return "Reserve{" +
+                "Id=" + Id +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
+                ", restaurant=" + restaurant +
+                ", guest=" + guest +
+                ", comment='" + comment + '\'' +
+                ", tableId=" + tableId +
+                ", reserveStatus=" + reserveStatus +
+                '}';
+    }
 }

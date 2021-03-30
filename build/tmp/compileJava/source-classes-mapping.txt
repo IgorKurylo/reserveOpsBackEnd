@@ -8,24 +8,26 @@ application/GsonProvider.java
  application.GsonProvider
 security/AccessTokenGenerator.java
  security.AccessTokenGenerator
-repository/AuthRepository.java
- repository.AuthRepository
-services/AuthService.java
- services.AuthService
+models/RestaurantTables.java
+ models.RestaurantTables
 repository/contracts/IDatabaseConnection.java
  repository.contracts.IDatabaseConnection
-repository/RestaurantRepository.java
- repository.RestaurantRepository
+models/AccessToken.java
+ models.AccessToken
 repository/contracts/IAuthRepository.java
  repository.contracts.IAuthRepository
+repository/BusinessLogic.java
+ repository.BusinessLogic
 models/BaseResponse.java
  models.BaseResponse
-exceptions/InvalidTokenException.java
- exceptions.InvalidTokenException
+utils/JsonConverter.java
+ utils.JsonConverter
 interfaces/ICurdExtendOperation.java
  interfaces.ICurdExtendOperation
 models/AuthCredentials.java
  models.AuthCredentials
+security/AuthenticationFilter.java
+ security.AuthenticationFilter
 models/requests/RestaurantListRequest.java
  models.requests.RestaurantListRequest
 utils/Converters.java
@@ -34,58 +36,56 @@ models/User.java
  models.User
 security/AuthenticationTokenDetails.java
  security.AuthenticationTokenDetails
-security/AuthenticationFilter.java
- security.AuthenticationFilter
 models/BaseRequest.java
  models.BaseRequest
 models/RestaurantArea.java
  models.RestaurantArea
-models/AvailableTime.java
- models.AvailableTime
+services/AuthService.java
+ services.AuthService
 utils/Const.java
  utils.Const
-models/Role.java
- models.Role
-repository/DatabaseConnection.java
- repository.DatabaseConnection
-utils/Logger.java
- utils.Logger
-repository/contracts/IRestaurantRepository.java
- repository.contracts.IRestaurantRepository
-models/Restaurant.java
- models.Restaurant
-models/AccessToken.java
- models.AccessToken
-utils/RestResponseBuilder.java
- utils.RestResponseBuilder
-models/Area.java
- models.Area
-interfaces/ICrudBaseOperation.java
- interfaces.ICrudBaseOperation
-interfaces/IConverter.java
- interfaces.IConverter
-services/RestaurantService.java
- services.RestaurantService
-exceptions/ReserveException.java
- exceptions.ReserveException
-models/ReserveStatus.java
- models.ReserveStatus
 application/Application.java
  application.Application
-utils/JsonConverter.java
- utils.JsonConverter
+utils/RestResponseBuilder.java
+ utils.RestResponseBuilder
+repository/contracts/IReserveRepository.java
+ repository.contracts.IReserveRepository
+interfaces/ICrudBaseOperation.java
+ interfaces.ICrudBaseOperation
+models/Area.java
+ models.Area
+repository/AuthRepository.java
+ repository.AuthRepository
+interfaces/IConverter.java
+ interfaces.IConverter
+repository/DatabaseConnection.java
+ repository.DatabaseConnection
+utils/Logs.java
+ utils.Logs
+exceptions/ReserveException.java
+ exceptions.ReserveException
+models/Role.java
+ models.Role
+models/AvailableTime.java
+ models.AvailableTime
+models/ReserveStatus.java
+ models.ReserveStatus
+exceptions/InvalidTokenException.java
+ exceptions.InvalidTokenException
+repository/contracts/IRestaurantRepository.java
+ repository.contracts.IRestaurantRepository
 services/ReserveService.java
  services.ReserveService
-repository/BusinessLogic.java
- repository.BusinessLogic
 models/Reserve.java
  models.Reserve
 models/response/ReserveResponse.java
  models.response.ReserveResponse
-models/RestaurantTables.java
- models.RestaurantTables
-repository/contracts/IReserveRepository.java
- repository.contracts.IReserveRepository
+repository/RestaurantRepository.java
+ repository.RestaurantRepository
+services/RestaurantService.java
+ services.RestaurantService
+models/Restaurant.java
+ models.Restaurant
 repository/ReserveRepository.java
  repository.ReserveRepository
 application/ApplicationBinder.java
