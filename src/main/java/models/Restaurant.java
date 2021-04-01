@@ -41,6 +41,13 @@ public class Restaurant {
         this.webSite = webSite;
     }
 
+    public Restaurant() {
+    }
+
+    public Restaurant(String restaurantName) {
+        this.restaurantName = restaurantName;
+    }
+
     public int getId() {
         return Id;
     }

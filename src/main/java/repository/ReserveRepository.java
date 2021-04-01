@@ -78,6 +78,9 @@ public class ReserveRepository implements IReserveRepository {
             } catch (SQLException ex) {
                 logs.errorLog(ex.getMessage());
             }
+            finally {
+                _connection.close();
+            }
         }
         logs.infoLog(reserve.toString());
         return reserve;
@@ -181,6 +184,9 @@ public class ReserveRepository implements IReserveRepository {
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();
+            }
+            finally {
+                _connection.close();
             }
 
         });
