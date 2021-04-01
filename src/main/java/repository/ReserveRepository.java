@@ -7,6 +7,7 @@ import models.ReserveStatus;
 import models.RestaurantTables;
 import repository.contracts.IDatabaseConnection;
 import repository.contracts.IReserveRepository;
+import utils.Const;
 import utils.Converters;
 import utils.Logs;
 
@@ -35,7 +36,11 @@ public class ReserveRepository implements IReserveRepository {
     private final String _GET_RESTAURANT_TABLES = "SELECT t.id, t.seats FROM rest_table " +
             "INNER JOIN tables t on t.id = rest_table.tblid " +
             "WHERE restid=%d order by t.seats";
-    private final String _CHECK_TABLE_AVAILABLE = "SELECT tblid FROM reserve WHERE tblid=%d and guests=%d and reservedate='%s' and reservetime='%s'";
+    private final String _CHECK_TABLE_AVAILABLE = "SELECT rest_table.seats,rest_table.tblid" +
+            "FROM rest_table" +
+            "RIGHT JOIN  reserve r on rest_table.restid = r.restid" +
+            "WHERE rest_table.restid=%d and rest_table.tblid <> r.tblid" +
+            "and rest_table.seats between %d and %d guests=%d and reservedate='%s' and reservetime<>'%s'";
 
     @Inject
     IDatabaseConnection _connection;
@@ -53,10 +58,10 @@ public class ReserveRepository implements IReserveRepository {
         if (connection.isPresent()) {
             Connection conn = connection.get();
             try {
-                List<RestaurantTables> tables = getTables(reserve.getRestaurant().getId(), conn);
-                RestaurantTables t = BusinessLogic.findTable(reserve.getGuest(), tables);
-                if (t != null) {
-                    if (IsTableAvailable(t.getTableId(), reserve.getGuest(), reserve.getDate(), reserve.getTime(), conn)) {
+                List<RestaurantTables> tables = getTables(reserve, conn);
+                if (tables.size() > 0) {
+                    RestaurantTables t = BusinessLogic.findTable(reserve.getGuest(), tables);
+                    if (t != null) { // If is a null? what doing
                         reserve.setTableId(t.getTableId());
                         PreparedStatement statement = prepareReserveCreation(reserve, userId, conn);
                         if (statement.executeUpdate() > 0) {
@@ -65,9 +70,10 @@ public class ReserveRepository implements IReserveRepository {
                                 reserve.setId(generatedKeys.getInt(1));
                             }
                         }
-                    } else {
-                        //TODO: run suggestion logic
                     }
+                } else {
+
+                    //TODO: find other suggestion for user and send
                 }
             } catch (SQLException ex) {
                 logs.errorLog(ex.getMessage());
@@ -85,7 +91,7 @@ public class ReserveRepository implements IReserveRepository {
         statement.setDate(4, Converters.toSQLDateType(reserve.getDate()));
         statement.setTime(5, Converters.toSQLTimeType(reserve.getTime()));
         statement.setInt(6, reserve.getGuest());
-        statement.setObject(7, ReserveStatus.Waiting.name(),Types.OTHER);
+        statement.setObject(7, ReserveStatus.Waiting.name(), Types.OTHER);
         statement.setString(8, reserve.getComment());
         return statement;
     }
@@ -218,14 +224,15 @@ public class ReserveRepository implements IReserveRepository {
                 , true));
     }
 
-    private List<RestaurantTables> getTables(int restaurantId, Connection conn) throws SQLException {
+    private List<RestaurantTables> getTables(Reserve reserve, Connection conn) throws SQLException {
         List<RestaurantTables> tables = new ArrayList<>();
         Statement selectStatement;
         selectStatement = conn.createStatement();
-        String tablesQuery = String.format(_GET_RESTAURANT_TABLES, restaurantId);
+        String tablesQuery = String.format(_CHECK_TABLE_AVAILABLE, reserve.getRestaurant().getId(), reserve.getGuest(),
+                reserve.getGuest() * Const.MULTIPLY_NUMBER_OF_MAX_SEATS, reserve.getGuest(), reserve.getDate(), reserve.getTime());
         ResultSet resultSet = selectStatement.executeQuery(tablesQuery);
         while (resultSet.next()) {
-            tables.add(new RestaurantTables(resultSet.getInt("id"), resultSet.getInt("seats")));
+            tables.add(new RestaurantTables(resultSet.getInt("tblid"), resultSet.getInt("seats")));
         }
         return tables;
     }
