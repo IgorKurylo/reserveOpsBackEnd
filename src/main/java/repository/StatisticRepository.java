@@ -18,14 +18,14 @@ public class StatisticRepository implements IStatisticRepository {
 
     @Inject
     IDatabaseConnection _connection;
-    private final String _UPCOMING_QUERY = "SELECT reservedate, reservetime, guests, restname " +
+    private final String _UPCOMING_QUERY = "SELECT reservedate as date, reservetime as time, guests, restname " +
             "FROM reserve " +
             "INNER JOIN restaurant r on r.restid = reserve.restid " +
             "WHERE reservedate > CURRENT_DATE " +
             "and usrid = %d order by reservedate asc LIMIT 1 ";
     private final String _RESERVATION_QUERY = "SELECT count(reserve.id) reservationCount FROM reserve WHERE usrid = %d";
-    private final String _LAST_VISIT_QUERY = "SELECT  restname,reservedate" +
-            "FROM reserve INNER JOIN restaurant r on r.restid = reserve.restid" +
+    private final String _LAST_VISIT_QUERY = "SELECT  restname,reservedate " +
+            "FROM reserve INNER JOIN restaurant r on r.restid = reserve.restid " +
             "WHERE reservedate < CURRENT_DATE " +
             "and usrid = %d order by reservedate desc LIMIT 1";
 
@@ -48,7 +48,7 @@ public class StatisticRepository implements IStatisticRepository {
                 resultSet.next();
                 reserve.setDate(resultSet.getString("date"));
                 reserve.setTime(resultSet.getString("time"));
-                reserve.setGuest(resultSet.getInt("guest"));
+                reserve.setGuest(resultSet.getInt("guests"));
                 reserve.setRestaurant(new Restaurant(resultSet.getString("restname")));
 
             } catch (SQLException ex) {

@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName;
 public class Reserve {
 
     private int Id;
-    @SerializedName("date")
+    @SerializedName("Date")
     private String date;
-    @SerializedName("time")
+    @SerializedName("Time")
     private String time;
-    @SerializedName("restaurant")
+    @SerializedName("Restaurant")
     private Restaurant restaurant;
-    @SerializedName("guest")
+    @SerializedName("Guests")
     private int guest;
     @SerializedName("comment")
     private String comment;
