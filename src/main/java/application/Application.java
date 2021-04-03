@@ -2,13 +2,10 @@ package application;
 
 
 import org.glassfish.jersey.server.ResourceConfig;
-import security.AuthenticationFilter;
+import security.AuthorizerFilter;
 
 import javax.ws.rs.ApplicationPath;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
 
 @ApplicationPath("/api")
 public class Application extends ResourceConfig {
@@ -16,7 +13,7 @@ public class Application extends ResourceConfig {
     public Application() {
 
         register(new ApplicationBinder());
-        register(AuthenticationFilter.class);
+        register(AuthorizerFilter.class);
         register(GsonProvider.class);
         try {
             ApplicationConfig.getInstance().loadConfig();

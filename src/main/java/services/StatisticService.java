@@ -5,22 +5,26 @@ import models.Reserve;
 import models.Restaurant;
 import models.response.StatisticResponse;
 import repository.contracts.IStatisticRepository;
+import security.Authorizer;
+import utils.Const;
 import utils.RestResponseBuilder;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
 @Path("statistics")
+@Authorizer
 public class StatisticService {
 
     @Inject
     IStatisticRepository _repository;
 
     @GET
-    public Response statistics() {
-        int userId = 1;
+    public Response statistics(@HeaderParam(Const.X_USER_DATA) String user) {
+        int userId = Integer.parseInt(user);
         int reservation = _repository.reservations(userId);
         Reserve reserve = _repository.upComing(userId);
         Restaurant restaurant = _repository.lastVisit(userId);

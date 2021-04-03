@@ -1,13 +1,12 @@
 CREATE TYPE Reserve_Status AS ENUM ('Approved','Waiting','Deleted');
 CREATE TYPE Rest_Area AS ENUM ('NORTH','HAIFA','TELAVIV','ASHDOD_ASHKELON','SOUTH','EILAT');
-CREATE TABLE IF NOT EXISTS "User"
+CREATE TABLE IF NOT EXISTS Users
 (
     Id          SERIAL PRIMARY KEY,
     firstName   VARCHAR(50),
     lastName    VARCHAR(50),
     phoneNumber VARCHAR(10),
-    password    VARCHAR(8) UNIQUE,
-    role        VARCHAR(8)
+    role        VARCHAR(20)
 );
 
 

@@ -61,7 +61,7 @@ public class ReserveRepository implements IReserveRepository {
                 List<RestaurantTables> tables = getTables(reserve, conn);
                 if (tables.size() > 0) {
                     RestaurantTables t = BusinessLogic.findTable(reserve.getGuest(), tables);
-                    if (t != null) { // If is a null? what doing
+                    if (t != null) {
                         reserve.setTableId(t.getTableId());
                         PreparedStatement statement = prepareReserveCreation(reserve, userId, conn);
                         if (statement.executeUpdate() > 0) {
@@ -71,9 +71,6 @@ public class ReserveRepository implements IReserveRepository {
                             }
                         }
                     }
-                } else {
-
-                    //TODO: find other suggestion for user and send
                 }
             } catch (SQLException ex) {
                 logs.errorLog(ex.getMessage());

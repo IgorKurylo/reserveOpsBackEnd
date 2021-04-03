@@ -5,46 +5,25 @@ import models.*;
 import models.requests.RestaurantListRequest;
 import models.response.RestaurantResponse;
 import repository.contracts.IRestaurantRepository;
+import security.Authorizer;
 import utils.RestResponseBuilder;
 
+import javax.annotation.Priority;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
+
 @Path("restaurant")
-public class RestaurantService implements ICrudBaseOperation<Restaurant> {
+public class RestaurantService {
     @Inject
     IRestaurantRepository _repository;
 
-    @Override
-    public Response create(Restaurant object) {
-        return null;
-    }
-
-    @Override
-    public Response update(Restaurant object) {
-        return null;
-    }
-
-    @Override
-    public Response delete() {
-        return null;
-    }
-
-    @Override
-    public Response read(int id) {
-        return null;
-    }
-
-    @Override
-    public Response readList() {
-        return null;
-    }
-
     @POST
     @Path("list")
+    @Authorizer
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response listByAreas(RestaurantListRequest request) {
@@ -54,8 +33,6 @@ public class RestaurantService implements ICrudBaseOperation<Restaurant> {
                 new BaseResponse<>(new RestaurantResponse(restaurantList), "", true);
         return new RestResponseBuilder(200).withEntity(response).create();
     }
-
-
 
 
 }

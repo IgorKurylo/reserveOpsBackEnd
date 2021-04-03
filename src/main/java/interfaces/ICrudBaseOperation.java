@@ -9,16 +9,16 @@ import javax.ws.rs.core.Response;
 public interface ICrudBaseOperation<E> {
 
 
-    Response create(E object);
+    Response create(E object, String headers);
 
-    Response update(E object);
+    Response update(E object, String headers);
 
-    Response delete();
+    Response delete(int id,String headers);
 
 
-    Response read(int id);
+    Response read(int id, String headers);
 
-    Response readList();
+    Response readList(String headers);
 
 
 }

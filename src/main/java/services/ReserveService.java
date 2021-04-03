@@ -8,6 +8,7 @@ import models.Reserve;
 import models.response.AvailableTimeResponse;
 import models.response.ReserveResponse;
 import repository.contracts.IReserveRepository;
+import utils.Const;
 import utils.RestResponseBuilder;
 
 import javax.inject.Inject;
@@ -26,25 +27,26 @@ public class ReserveService implements ICrudBaseOperation<Reserve> {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Override
-    public Response create(Reserve reserve) {
-        Reserve newReserve = _repository.create(reserve, 1);
+    public Response create(Reserve reserve, @HeaderParam(Const.X_USER_DATA) String user) {
+        Reserve newReserve = _repository.create(reserve, Integer.parseInt(user));
         BaseResponse<ReserveResponse> response = new BaseResponse<>(new ReserveResponse(newReserve), "", true);
         return new RestResponseBuilder(201).withEntity(response).create();
 
     }
+
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Override
-    public Response read(int Id) {
+    public Response read(int Id, @HeaderParam(Const.X_USER_DATA) String user) {
         return null;
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response reservesList(@QueryParam("date") String date) {
-        List<Reserve> orders = _repository.getReserves(0, date, 1);
-        return new RestResponseBuilder(200).withEntity(orders).create();
+    public Response reservesList(@QueryParam("date") String date, @HeaderParam(Const.X_USER_DATA) String user) {
+        List<Reserve> reserveList = _repository.getReserves(0, date, Integer.parseInt(user));
+        return new RestResponseBuilder(200).withEntity(reserveList).create();
     }
 
     @GET
@@ -66,7 +68,7 @@ public class ReserveService implements ICrudBaseOperation<Reserve> {
 
 
     @Override
-    public Response readList() {
+    public Response readList(@HeaderParam(Const.X_USER_DATA) String user) {
         return null;
     }
 
@@ -75,7 +77,7 @@ public class ReserveService implements ICrudBaseOperation<Reserve> {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Override
-    public Response update(Reserve r) {
+    public Response update(Reserve r, @HeaderParam(Const.X_USER_DATA) String user) {
         return null;
     }
 
@@ -83,7 +85,7 @@ public class ReserveService implements ICrudBaseOperation<Reserve> {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Override
-    public Response delete() {
+    public Response delete(int id, @HeaderParam(Const.X_USER_DATA) String user) {
         return null;
     }
 

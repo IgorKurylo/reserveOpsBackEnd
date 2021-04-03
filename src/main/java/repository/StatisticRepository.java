@@ -18,7 +18,7 @@ public class StatisticRepository implements IStatisticRepository {
 
     @Inject
     IDatabaseConnection _connection;
-    private final String _UPCOMING_QUERY = "SELECT reservedate as date, reservetime as time, guests, restname " +
+    private final String _UPCOMING_QUERY = "SELECT reservedate as date, to_char(reservetime,'HH24:MM') as time, guests, restname " +
             "FROM reserve " +
             "INNER JOIN restaurant r on r.restid = reserve.restid " +
             "WHERE reservedate > CURRENT_DATE " +

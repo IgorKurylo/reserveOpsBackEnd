@@ -1,7 +1,7 @@
 package security;
 
 import application.ApplicationConfig;
-import models.User;
+import models.user.User;
 import utils.Const;
 
 import java.time.ZonedDateTime;
