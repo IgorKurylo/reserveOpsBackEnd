@@ -1,10 +1,7 @@
 package repository;
 
 import exceptions.ReserveException;
-import models.AvailableTime;
-import models.Reserve;
-import models.ReserveStatus;
-import models.RestaurantTables;
+import models.*;
 import repository.contracts.IDatabaseConnection;
 import repository.contracts.IReserveRepository;
 import utils.Const;
@@ -42,6 +39,13 @@ public class ReserveRepository implements IReserveRepository {
             "WHERE rest_table.restid=%d and rest_table.tblid <> r.tblid" +
             "and rest_table.seats between %d and %d guests=%d and reservedate='%s' and reservetime<>'%s'";
 
+    private final String _RESERVES_LIST =
+            "SELECT restname,imageurl,to_char(reservetime,'HH24:MM') as time," +
+                    "reservedate as date,guests,status " +
+                    "FROM reserve " +
+                    "INNER JOIN restaurant r on r.restid = reserve.restid " +
+                    "WHERE usrid=%d";
+
     @Inject
     IDatabaseConnection _connection;
     private Logs logs;
@@ -74,8 +78,7 @@ public class ReserveRepository implements IReserveRepository {
                 }
             } catch (SQLException ex) {
                 logs.errorLog(ex.getMessage());
-            }
-            finally {
+            } finally {
                 _connection.close();
             }
         }
@@ -152,8 +155,32 @@ public class ReserveRepository implements IReserveRepository {
     }
 
     @Override
-    public List<Reserve> getReserves(int restaurantId, String date, int userId) {
-        return null;
+    public List<Reserve> getReserves(String date, int userId) {
+        List<Reserve> reserves = new ArrayList<>();
+        Optional<Connection> connection = _connection.open();
+        connection.ifPresent(conn -> {
+            String query = String.format(_RESERVES_LIST, userId); // build query if date is set or not
+            Statement statement = null;
+            try {
+                statement = conn.createStatement();
+                ResultSet resultSet = statement.executeQuery(query);
+                while (resultSet.next()) {
+                    reserves.add(new Reserve(resultSet.getString("date"),
+                            resultSet.getString("time"), new Restaurant(
+                            0, resultSet.getString("restname"),
+                            "", "", resultSet.getString("imageurl"),
+                            null, "", "", "", ""),
+                            resultSet.getInt("guests"), 0,
+                            ReserveStatus.valueOf(resultSet.getString("status")),
+                            ""
+                    ));
+                }
+
+            } catch (SQLException ex) {
+                logs.errorLog(ex.toString());
+            }
+        });
+        return reserves;
     }
 
 
@@ -181,8 +208,7 @@ public class ReserveRepository implements IReserveRepository {
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();
-            }
-            finally {
+            } finally {
                 _connection.close();
             }
 

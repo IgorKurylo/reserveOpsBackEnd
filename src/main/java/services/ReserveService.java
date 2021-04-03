@@ -6,8 +6,10 @@ import models.BaseRequest;
 import models.BaseResponse;
 import models.Reserve;
 import models.response.AvailableTimeResponse;
+import models.response.ReserveListResponse;
 import models.response.ReserveResponse;
 import repository.contracts.IReserveRepository;
+import security.Authorizer;
 import utils.Const;
 import utils.RestResponseBuilder;
 
@@ -24,6 +26,7 @@ public class ReserveService implements ICrudBaseOperation<Reserve> {
     IReserveRepository _repository;
 
     @POST
+    @Authorizer
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Override
@@ -36,6 +39,7 @@ public class ReserveService implements ICrudBaseOperation<Reserve> {
 
     @GET
     @Path("{id}")
+    @Authorizer
     @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response read(int Id, @HeaderParam(Const.X_USER_DATA) String user) {
@@ -43,14 +47,18 @@ public class ReserveService implements ICrudBaseOperation<Reserve> {
     }
 
     @GET
+    @Authorizer
     @Produces(MediaType.APPLICATION_JSON)
     public Response reservesList(@QueryParam("date") String date, @HeaderParam(Const.X_USER_DATA) String user) {
-        List<Reserve> reserveList = _repository.getReserves(0, date, Integer.parseInt(user));
-        return new RestResponseBuilder(200).withEntity(reserveList).create();
+        List<Reserve> reserveList = _repository.getReserves(date, Integer.parseInt(user));
+        BaseResponse<ReserveListResponse> response = new BaseResponse<>
+                (new ReserveListResponse(reserveList), "", true);
+        return new RestResponseBuilder(200).withEntity(response).create();
     }
 
     @GET
     @Path("availableTimes")
+    @Authorizer
     @Produces(MediaType.APPLICATION_JSON)
     public Response availableTimes(@QueryParam("restaurantId") int restaurantId, @QueryParam("date") String date) {
         List<AvailableTime> availableTimeList = _repository.availableTimes(restaurantId, date);
@@ -61,6 +69,7 @@ public class ReserveService implements ICrudBaseOperation<Reserve> {
 
     @GET()
     @Path("next")
+    @Authorizer
     @Produces(MediaType.APPLICATION_JSON)
     public Response upComingReserve() {
         return null;

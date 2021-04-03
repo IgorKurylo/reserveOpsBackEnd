@@ -41,7 +41,7 @@ public class AuthService {
         Response response = null;
         BaseResponse<AccessToken> baseResponse;
         User user = repository.authentication(authCredentials);
-        if (user != null) {
+        if (user.getId() != 0) {
             AuthenticationTokenDetails details = new AuthenticationTokenDetails(user);
             String token = this.accessTokenGenerator.generate(details);
             baseResponse = new BaseResponse<>(new AccessToken(token, user.getRole().name(), user), "", true);

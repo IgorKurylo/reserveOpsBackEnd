@@ -14,6 +14,8 @@ models/requests/RestaurantListRequest.java
  models.requests.RestaurantListRequest
 utils/Converters.java
  utils.Converters
+models/response/ReserveListResponse.java
+ models.response.ReserveListResponse
 security/AuthenticationTokenDetails.java
  security.AuthenticationTokenDetails
 models/BaseRequest.java
@@ -22,8 +24,8 @@ models/RestaurantArea.java
  models.RestaurantArea
 services/RestaurantService.java
  services.RestaurantService
-application/ApplicationBinder.java
- application.ApplicationBinder
+repository/BusinessLogic.java
+ repository.BusinessLogic
 interfaces/ICrudBaseOperation.java
  interfaces.ICrudBaseOperation
 models/Area.java
@@ -32,8 +34,8 @@ repository/AuthRepository.java
  repository.AuthRepository
 exceptions/ReserveException.java
  exceptions.ReserveException
-repository/StatisticRepository.java
- repository.StatisticRepository
+models/Restaurant.java
+ models.Restaurant
 models/AvailableTime.java
  models.AvailableTime
 models/ReserveStatus.java
@@ -76,12 +78,12 @@ repository/contracts/IReserveRepository.java
  repository.contracts.IReserveRepository
 utils/JsonConverter.java
  utils.JsonConverter
-services/ReserveService.java
- services.ReserveService
+application/ApplicationBinder.java
+ application.ApplicationBinder
 models/ReserveBuilder.java
  models.ReserveBuilder
-services/AuthService.java
- services.AuthService
+services/ReserveService.java
+ services.ReserveService
 utils/Const.java
  utils.Const
 application/Application.java
@@ -92,13 +94,13 @@ interfaces/IConverter.java
  interfaces.IConverter
 repository/DatabaseConnection.java
  repository.DatabaseConnection
-repository/ReserveRepository.java
- repository.ReserveRepository
-models/Role.java
- models.Role
-repository/BusinessLogic.java
- repository.BusinessLogic
-models/Restaurant.java
- models.Restaurant
 models/response/ReserveResponse.java
  models.response.ReserveResponse
+models/Role.java
+ models.Role
+repository/ReserveRepository.java
+ repository.ReserveRepository
+repository/StatisticRepository.java
+ repository.StatisticRepository
+services/AuthService.java
+ services.AuthService
