@@ -1,5 +1,6 @@
 package services;
 
+import exceptions.CreateReserveException;
 import interfaces.ICrudBaseOperation;
 import models.AvailableTime;
 import models.BaseRequest;
@@ -31,9 +32,18 @@ public class ReserveService implements ICrudBaseOperation<Reserve> {
     @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response create(Reserve reserve, @HeaderParam(Const.X_USER_DATA) String user) {
-        Reserve newReserve = _repository.create(reserve, Integer.parseInt(user));
-        BaseResponse<ReserveResponse> response = new BaseResponse<>(new ReserveResponse(newReserve), "", true);
-        return new RestResponseBuilder(201).withEntity(response).create();
+        Reserve newReserve = null;
+        BaseResponse<ReserveResponse> responseBaseResponse = null;
+        Response response = null;
+        try {
+            newReserve = _repository.create(reserve, Integer.parseInt(user));
+            responseBaseResponse = new BaseResponse<>(new ReserveResponse(newReserve), "", true);
+            response = new RestResponseBuilder(201).withEntity(responseBaseResponse).create();
+        } catch (CreateReserveException e) {
+            responseBaseResponse = new BaseResponse<>(null, e.getMessage(), false);
+            response = new RestResponseBuilder(400).withEntity(responseBaseResponse).create();
+        }
+        return response;
 
     }
 

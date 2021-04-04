@@ -1,6 +1,6 @@
 package repository;
 
-import exceptions.ReserveException;
+import exceptions.CreateReserveException;
 import models.*;
 import repository.contracts.IDatabaseConnection;
 import repository.contracts.IReserveRepository;
@@ -30,9 +30,6 @@ public class ReserveRepository implements IReserveRepository {
             "INNER JOIN restaurant r on r.restid = reserve.restid " +
             "WHERE reservedate = '%s') as O " +
             "WHERE restid = %d";
-    private final String _GET_RESTAURANT_TABLES = "SELECT t.id, t.seats FROM rest_table " +
-            "INNER JOIN tables t on t.id = rest_table.tblid " +
-            "WHERE restid=%d order by t.seats";
     private final String _CHECK_TABLE_AVAILABLE = "SELECT rest_table.seats,rest_table.tblid" +
             "FROM rest_table" +
             "RIGHT JOIN  reserve r on rest_table.restid = r.restid" +
@@ -55,7 +52,7 @@ public class ReserveRepository implements IReserveRepository {
     }
 
     @Override
-    public Reserve create(Reserve reserve, int userId) {
+    public Reserve create(Reserve reserve, int userId) throws CreateReserveException {
 
         Optional<Connection> connection = this._connection.open();
         logs.infoLog(reserve.toString());
@@ -75,9 +72,13 @@ public class ReserveRepository implements IReserveRepository {
                             }
                         }
                     }
+                } else {
+                    throw new CreateReserveException(
+                            String.format("There not available tables in %s,%s with guests %d", reserve.getDate(), reserve.getTime(), reserve.getGuest()));
                 }
             } catch (SQLException ex) {
                 logs.errorLog(ex.getMessage());
+                throw new CreateReserveException("Error on creation");
             } finally {
                 _connection.close();
             }
@@ -110,7 +111,7 @@ public class ReserveRepository implements IReserveRepository {
     }
 
     @Override
-    public void delete(int id) throws ReserveException {
+    public void delete(int id) throws CreateReserveException {
         Optional<Connection> connection = this._connection.open();
         if (connection.isPresent()) {
             try {
@@ -118,7 +119,7 @@ public class ReserveRepository implements IReserveRepository {
                 preparedStatement.setInt(1, id);
                 int affectedRows = preparedStatement.executeUpdate();
                 if (affectedRows <= 0) {
-                    throw new ReserveException(String.format("Can't delete order id %d", id));
+                    throw new CreateReserveException(String.format("Can't delete order id %d", id));
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();
@@ -264,16 +265,6 @@ public class ReserveRepository implements IReserveRepository {
             tables.add(new RestaurantTables(resultSet.getInt("tblid"), resultSet.getInt("seats")));
         }
         return tables;
-    }
-
-    private boolean IsTableAvailable(int tableId, int guestRequestNumber, String date, String time, Connection conn) throws SQLException {
-        Statement selectStatement;
-        boolean isAvailable = false;
-        selectStatement = conn.createStatement();
-        String tablesQuery = String.format(_CHECK_TABLE_AVAILABLE, tableId, guestRequestNumber, date, time);
-        ResultSet resultSet = selectStatement.executeQuery(tablesQuery);
-        isAvailable = !resultSet.next();
-        return isAvailable;
     }
 
 

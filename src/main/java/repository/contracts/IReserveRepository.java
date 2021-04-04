@@ -1,6 +1,6 @@
 package repository.contracts;
 
-import exceptions.ReserveException;
+import exceptions.CreateReserveException;
 import models.AvailableTime;
 import models.Reserve;
 
@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface IReserveRepository {
 
-    Reserve create(Reserve reserve,int userId);
+    Reserve create(Reserve reserve,int userId) throws CreateReserveException;
 
     Reserve update(Reserve reserve);
 
-    void delete(int id) throws ReserveException;
+    void delete(int id) throws CreateReserveException;
 
     Reserve getReserve(int id);
 
