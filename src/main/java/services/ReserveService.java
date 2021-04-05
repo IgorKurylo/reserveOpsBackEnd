@@ -6,6 +6,7 @@ import models.AvailableTime;
 import models.BaseRequest;
 import models.BaseResponse;
 import models.Reserve;
+import models.requests.ReserveRequest;
 import models.response.AvailableTimeResponse;
 import models.response.ReserveListResponse;
 import models.response.ReserveResponse;
@@ -21,7 +22,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("reserve")
-public class ReserveService implements ICrudBaseOperation<Reserve> {
+public class ReserveService implements ICrudBaseOperation<ReserveRequest> {
 
     @Inject
     IReserveRepository _repository;
@@ -31,12 +32,12 @@ public class ReserveService implements ICrudBaseOperation<Reserve> {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Override
-    public Response create(Reserve reserve, @HeaderParam(Const.X_USER_DATA) String user) {
+    public Response create(ReserveRequest request, @HeaderParam(Const.X_USER_DATA) String user) {
         Reserve newReserve = null;
         BaseResponse<ReserveResponse> responseBaseResponse = null;
         Response response = null;
         try {
-            newReserve = _repository.create(reserve, Integer.parseInt(user));
+            newReserve = _repository.create(request.getReserve(), Integer.parseInt(user));
             responseBaseResponse = new BaseResponse<>(new ReserveResponse(newReserve), "", true);
             response = new RestResponseBuilder(201).withEntity(responseBaseResponse).create();
         } catch (CreateReserveException e) {
@@ -96,7 +97,7 @@ public class ReserveService implements ICrudBaseOperation<Reserve> {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Override
-    public Response update(Reserve r, @HeaderParam(Const.X_USER_DATA) String user) {
+    public Response update(ReserveRequest r, @HeaderParam(Const.X_USER_DATA) String user) {
         return null;
     }
 

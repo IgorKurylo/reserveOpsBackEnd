@@ -32,8 +32,8 @@ models/Area.java
  models.Area
 repository/AuthRepository.java
  repository.AuthRepository
-exceptions/ReserveException.java
- exceptions.ReserveException
+services/AuthService.java
+ services.AuthService
 models/Restaurant.java
  models.Restaurant
 models/AvailableTime.java
@@ -50,8 +50,8 @@ models/Reserve.java
  models.Reserve
 models/user/AuthCredentials.java
  models.user.AuthCredentials
-services/StatisticService.java
- services.StatisticService
+repository/ReserveRepository.java
+ repository.ReserveRepository
 utils/RestResponseBuilder.java
  utils.RestResponseBuilder
 models/response/StatisticResponse.java
@@ -60,8 +60,8 @@ utils/Logs.java
  utils.Logs
 models/user/User.java
  models.user.User
-repository/contracts/IStatisticRepository.java
- repository.contracts.IStatisticRepository
+services/ReserveService.java
+ services.ReserveService
 models/response/AvailableTimeResponse.java
  models.response.AvailableTimeResponse
 application/ApplicationConfig.java
@@ -74,16 +74,16 @@ repository/RestaurantRepository.java
  repository.RestaurantRepository
 repository/contracts/IAuthRepository.java
  repository.contracts.IAuthRepository
-repository/contracts/IReserveRepository.java
- repository.contracts.IReserveRepository
+models/response/ReserveResponse.java
+ models.response.ReserveResponse
 utils/JsonConverter.java
  utils.JsonConverter
-application/ApplicationBinder.java
- application.ApplicationBinder
+repository/DatabaseConnection.java
+ repository.DatabaseConnection
 models/ReserveBuilder.java
  models.ReserveBuilder
-services/ReserveService.java
- services.ReserveService
+models/Role.java
+ models.Role
 utils/Const.java
  utils.Const
 application/Application.java
@@ -92,15 +92,19 @@ models/user/AccessToken.java
  models.user.AccessToken
 interfaces/IConverter.java
  interfaces.IConverter
-repository/DatabaseConnection.java
- repository.DatabaseConnection
-models/response/ReserveResponse.java
- models.response.ReserveResponse
-models/Role.java
- models.Role
-repository/ReserveRepository.java
- repository.ReserveRepository
+repository/contracts/IReserveRepository.java
+ repository.contracts.IReserveRepository
+exceptions/CreateReserveException.java
+ exceptions.CreateReserveException
+models/requests/ReserveRequest.java
+ models.requests.ReserveRequest
+models/requests/NotUpcomingReserve.java
+ models.requests.NotUpcomingReserve
+services/StatisticService.java
+ services.StatisticService
 repository/StatisticRepository.java
  repository.StatisticRepository
-services/AuthService.java
- services.AuthService
+application/ApplicationBinder.java
+ application.ApplicationBinder
+repository/contracts/IStatisticRepository.java
+ repository.contracts.IStatisticRepository

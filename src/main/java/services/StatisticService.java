@@ -3,6 +3,7 @@ package services;
 import models.BaseResponse;
 import models.Reserve;
 import models.Restaurant;
+import models.requests.NotUpcomingReserve;
 import models.response.StatisticResponse;
 import repository.contracts.IStatisticRepository;
 import security.Authorizer;
@@ -26,7 +27,12 @@ public class StatisticService {
     public Response statistics(@HeaderParam(Const.X_USER_DATA) String user) {
         int userId = Integer.parseInt(user);
         int reservation = _repository.reservations(userId);
-        Reserve reserve = _repository.upComing(userId);
+        Reserve reserve = new Reserve();
+        try {
+            reserve = _repository.upComing(userId);
+        } catch (NotUpcomingReserve ex) {
+            reserve = null;
+        }
         Restaurant restaurant = _repository.lastVisit(userId);
         StatisticResponse statisticResponse = new StatisticResponse(reserve, reservation, restaurant);
         BaseResponse<StatisticResponse> response = new BaseResponse<>(statisticResponse, "", true);

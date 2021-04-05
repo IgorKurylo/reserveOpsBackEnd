@@ -30,11 +30,11 @@ public class ReserveRepository implements IReserveRepository {
             "INNER JOIN restaurant r on r.restid = reserve.restid " +
             "WHERE reservedate = '%s') as O " +
             "WHERE restid = %d";
-    private final String _CHECK_TABLE_AVAILABLE = "SELECT rest_table.seats,rest_table.tblid" +
-            "FROM rest_table" +
-            "RIGHT JOIN  reserve r on rest_table.restid = r.restid" +
-            "WHERE rest_table.restid=%d and rest_table.tblid <> r.tblid" +
-            "and rest_table.seats between %d and %d guests=%d and reservedate='%s' and reservetime<>'%s'";
+    private final String _CHECK_TABLE_AVAILABLE = "SELECT rest_table.seats,rest_table.tblid " +
+            "FROM rest_table " +
+            "RIGHT JOIN reserve r on rest_table.restid = r.restid " +
+            "WHERE rest_table.restid=%d " +
+            "and rest_table.seats>=%d and rest_table.seats<=%d and reservedate<>'%s' and reservetime<>'%s'";
 
     private final String _RESERVES_LIST =
             "SELECT restname,imageurl,to_char(reservetime,'HH24:MM') as time," +

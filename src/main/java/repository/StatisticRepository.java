@@ -2,6 +2,7 @@ package repository;
 
 import models.Reserve;
 import models.Restaurant;
+import models.requests.NotUpcomingReserve;
 import models.response.StatisticResponse;
 import repository.contracts.IDatabaseConnection;
 import repository.contracts.IStatisticRepository;
@@ -36,7 +37,7 @@ public class StatisticRepository implements IStatisticRepository {
     }
 
     @Override
-    public Reserve upComing(int userId) {
+    public Reserve upComing(int userId) throws NotUpcomingReserve {
         Optional<Connection> connection = this._connection.open();
         String query = String.format(_UPCOMING_QUERY, userId);
         Reserve reserve = new Reserve();
@@ -45,13 +46,15 @@ public class StatisticRepository implements IStatisticRepository {
             try {
                 statement = conn.createStatement();
                 ResultSet resultSet = statement.executeQuery(query);
-                resultSet.next();
-                reserve.setDate(resultSet.getString("date"));
-                reserve.setTime(resultSet.getString("time"));
-                reserve.setGuest(resultSet.getInt("guests"));
-                reserve.setRestaurant(new Restaurant(resultSet.getString("restname")));
-
-            } catch (SQLException ex) {
+                if (resultSet.next()) {
+                    reserve.setDate(resultSet.getString("date"));
+                    reserve.setTime(resultSet.getString("time"));
+                    reserve.setGuest(resultSet.getInt("guests"));
+                    reserve.setRestaurant(new Restaurant(resultSet.getString("restname")));
+                } else {
+                    throw new NotUpcomingReserve("No upcoming reservation");
+                }
+            } catch (SQLException | NotUpcomingReserve ex) {
                 logs.errorLog(ex.getMessage());
             } finally {
                 _connection.close();
