@@ -24,8 +24,8 @@ models/RestaurantArea.java
  models.RestaurantArea
 services/RestaurantService.java
  services.RestaurantService
-repository/BusinessLogic.java
- repository.BusinessLogic
+services/StatisticService.java
+ services.StatisticService
 interfaces/ICrudBaseOperation.java
  interfaces.ICrudBaseOperation
 models/Area.java
@@ -50,8 +50,8 @@ models/Reserve.java
  models.Reserve
 models/user/AuthCredentials.java
  models.user.AuthCredentials
-repository/ReserveRepository.java
- repository.ReserveRepository
+repository/contracts/IStatisticRepository.java
+ repository.contracts.IStatisticRepository
 utils/RestResponseBuilder.java
  utils.RestResponseBuilder
 models/response/StatisticResponse.java
@@ -100,11 +100,11 @@ models/requests/ReserveRequest.java
  models.requests.ReserveRequest
 models/requests/NotUpcomingReserve.java
  models.requests.NotUpcomingReserve
-services/StatisticService.java
- services.StatisticService
+repository/BusinessLogic.java
+ repository.BusinessLogic
+repository/ReserveRepository.java
+ repository.ReserveRepository
 repository/StatisticRepository.java
  repository.StatisticRepository
 application/ApplicationBinder.java
  application.ApplicationBinder
-repository/contracts/IStatisticRepository.java
- repository.contracts.IStatisticRepository

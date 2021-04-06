@@ -42,6 +42,7 @@ public class ReserveRepository implements IReserveRepository {
                     "FROM reserve " +
                     "INNER JOIN restaurant r on r.restid = reserve.restid " +
                     "WHERE usrid=%d";
+    private final String _GET_TABLES_BY_REST_ID = "SELECT tblid,seats FROM rest_table WHERE restid=%d and rest_table.seats>=%d and rest_table.seats<=%d";
 
     @Inject
     IDatabaseConnection _connection;
@@ -56,25 +57,21 @@ public class ReserveRepository implements IReserveRepository {
 
         Optional<Connection> connection = this._connection.open();
         logs.infoLog(reserve.toString());
+        List<RestaurantTables> tables = new ArrayList<>();
         if (connection.isPresent()) {
             Connection conn = connection.get();
             try {
-                List<RestaurantTables> tables = getTables(reserve, conn);
+                tables = availableTables(reserve, conn);
                 if (tables.size() > 0) {
-                    RestaurantTables t = BusinessLogic.findTable(reserve.getGuest(), tables);
-                    if (t != null) {
-                        reserve.setTableId(t.getTableId());
-                        PreparedStatement statement = prepareReserveCreation(reserve, userId, conn);
-                        if (statement.executeUpdate() > 0) {
-                            ResultSet generatedKeys = statement.getGeneratedKeys();
-                            if (generatedKeys.next()) {
-                                reserve.setId(generatedKeys.getInt(1));
-                            }
-                        }
-                    }
+                    insertReserve(reserve, tables, userId, conn);
                 } else {
-                    throw new CreateReserveException(
-                            String.format("There not available tables in %s,%s with guests %d", reserve.getDate(), reserve.getTime(), reserve.getGuest()));
+                    tables = getTables(reserve.getRestaurant().getId(), reserve.getGuest(), conn);
+                    if (tables.size() > 0) {
+                        insertReserve(reserve, tables, userId, conn);
+                    } else {
+                        throw new CreateReserveException(
+                                "There not available tables");
+                    }
                 }
             } catch (SQLException ex) {
                 logs.errorLog(ex.getMessage());
@@ -98,6 +95,20 @@ public class ReserveRepository implements IReserveRepository {
         statement.setObject(7, ReserveStatus.Waiting.name(), Types.OTHER);
         statement.setString(8, reserve.getComment());
         return statement;
+    }
+
+    private void insertReserve(Reserve reserve, List<RestaurantTables> tables, int userId, Connection connection) throws SQLException {
+        RestaurantTables t = BusinessLogic.findTable(tables);
+        if (t != null) {
+            reserve.setTableId(t.getTableId());
+            PreparedStatement statement = prepareReserveCreation(reserve, userId, connection);
+            if (statement.executeUpdate() > 0) {
+                ResultSet generatedKeys = statement.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    reserve.setId(generatedKeys.getInt(1));
+                }
+            }
+        }
     }
 
 
@@ -254,18 +265,29 @@ public class ReserveRepository implements IReserveRepository {
                 , true));
     }
 
-    private List<RestaurantTables> getTables(Reserve reserve, Connection conn) throws SQLException {
+    private List<RestaurantTables> availableTables(Reserve reserve, Connection conn) throws SQLException {
         List<RestaurantTables> tables = new ArrayList<>();
         Statement selectStatement;
         selectStatement = conn.createStatement();
         String tablesQuery = String.format(_CHECK_TABLE_AVAILABLE, reserve.getRestaurant().getId(), reserve.getGuest(),
-                reserve.getGuest() * Const.MULTIPLY_NUMBER_OF_MAX_SEATS, reserve.getGuest(), reserve.getDate(), reserve.getTime());
+                reserve.getGuest() * Const.MULTIPLY_NUMBER_OF_MAX_SEATS, reserve.getDate(), reserve.getTime());
         ResultSet resultSet = selectStatement.executeQuery(tablesQuery);
         while (resultSet.next()) {
-            tables.add(new RestaurantTables(resultSet.getInt("tblid"), resultSet.getInt("seats")));
+            tables.add(new RestaurantTables(resultSet.getInt("seats"), resultSet.getInt("tblid")));
         }
         return tables;
     }
 
 
+    private List<RestaurantTables> getTables(int restId, int guests, Connection conn) throws SQLException {
+        List<RestaurantTables> tables = new ArrayList<>();
+        Statement selectStatement;
+        selectStatement = conn.createStatement();
+        String query = String.format(_GET_TABLES_BY_REST_ID, restId, guests, guests * Const.MULTIPLY_NUMBER_OF_MAX_SEATS);
+        ResultSet resultSet = selectStatement.executeQuery(query);
+        while (resultSet.next()) {
+            tables.add(new RestaurantTables(resultSet.getInt("seats"), resultSet.getInt("tblid")));
+        }
+        return tables;
+    }
 }

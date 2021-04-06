@@ -5,16 +5,21 @@ import models.RestaurantTables;
 import java.util.List;
 
 public class BusinessLogic {
-
-    public static RestaurantTables findTable(int guestRequestNumber, List<RestaurantTables> tables) {
+    /**
+     * find table by find the min of seats
+     *
+     * @param guestRequestNumber
+     * @param tables
+     * @return
+     */
+    public static RestaurantTables findTable(List<RestaurantTables> tables) {
         RestaurantTables t = null;
-        for (RestaurantTables resTable : tables) {
-            if (guestRequestNumber % 2 == 0 && guestRequestNumber == resTable.getNumOfSeats()) {
-                t = resTable;
-            } else if (Math.abs(guestRequestNumber - resTable.getNumOfSeats())  == 1) {
-                t = resTable;
+        int minIndex = 0;
+        for (int i = 0; i < tables.size(); i++) {
+            if (tables.get(i).getNumOfSeats() < tables.get(minIndex).getNumOfSeats()) {
+                minIndex = i;
             }
         }
-        return t;
+        return tables.get(minIndex);
     }
 }
