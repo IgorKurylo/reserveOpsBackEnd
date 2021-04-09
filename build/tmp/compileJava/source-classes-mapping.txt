@@ -60,8 +60,8 @@ utils/Logs.java
  utils.Logs
 models/user/User.java
  models.user.User
-services/ReserveService.java
- services.ReserveService
+models/requests/NotUpcomingReserve.java
+ models.requests.NotUpcomingReserve
 models/response/AvailableTimeResponse.java
  models.response.AvailableTimeResponse
 application/ApplicationConfig.java
@@ -92,19 +92,19 @@ models/user/AccessToken.java
  models.user.AccessToken
 interfaces/IConverter.java
  interfaces.IConverter
-repository/contracts/IReserveRepository.java
- repository.contracts.IReserveRepository
+repository/BusinessLogic.java
+ repository.BusinessLogic
 exceptions/CreateReserveException.java
  exceptions.CreateReserveException
 models/requests/ReserveRequest.java
  models.requests.ReserveRequest
-models/requests/NotUpcomingReserve.java
- models.requests.NotUpcomingReserve
-repository/BusinessLogic.java
- repository.BusinessLogic
+services/ReserveService.java
+ services.ReserveService
 repository/ReserveRepository.java
  repository.ReserveRepository
 repository/StatisticRepository.java
  repository.StatisticRepository
+repository/contracts/IReserveRepository.java
+ repository.contracts.IReserveRepository
 application/ApplicationBinder.java
  application.ApplicationBinder

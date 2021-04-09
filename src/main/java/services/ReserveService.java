@@ -60,8 +60,8 @@ public class ReserveService implements ICrudBaseOperation<ReserveRequest> {
     @GET
     @Authorizer
     @Produces(MediaType.APPLICATION_JSON)
-    public Response reservesList(@QueryParam("date") String date, @HeaderParam(Const.X_USER_DATA) String user) {
-        List<Reserve> reserveList = _repository.getReserves(date, Integer.parseInt(user));
+    public Response reservesList(@HeaderParam(Const.X_USER_DATA) String user) {
+        List<Reserve> reserveList = _repository.getReserves(Integer.parseInt(user));
         BaseResponse<ReserveListResponse> response = new BaseResponse<>
                 (new ReserveListResponse(reserveList), "", true);
         return new RestResponseBuilder(200).withEntity(response).create();

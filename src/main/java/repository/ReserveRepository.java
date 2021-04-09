@@ -41,7 +41,7 @@ public class ReserveRepository implements IReserveRepository {
                     "reservedate as date,guests,status " +
                     "FROM reserve " +
                     "INNER JOIN restaurant r on r.restid = reserve.restid " +
-                    "WHERE usrid=%d";
+                    "WHERE usrid=%d order by reservedate desc";
     private final String _GET_TABLES_BY_REST_ID = "SELECT tblid,seats FROM rest_table WHERE restid=%d and rest_table.seats>=%d and rest_table.seats<=%d";
 
     @Inject
@@ -167,7 +167,7 @@ public class ReserveRepository implements IReserveRepository {
     }
 
     @Override
-    public List<Reserve> getReserves(String date, int userId) {
+    public List<Reserve> getReserves(int userId) {
         List<Reserve> reserves = new ArrayList<>();
         Optional<Connection> connection = _connection.open();
         connection.ifPresent(conn -> {

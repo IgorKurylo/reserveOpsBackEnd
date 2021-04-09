@@ -24,7 +24,8 @@ public class StatisticService {
     IStatisticRepository _repository;
 
     @GET
-    public Response statistics(@HeaderParam(Const.X_USER_DATA) String user) {
+    @Path("user")
+    public Response statisticUser(@HeaderParam(Const.X_USER_DATA) String user) {
         int userId = Integer.parseInt(user);
         int reservation = _repository.reservations(userId);
         Reserve reserve = new Reserve();
@@ -37,6 +38,13 @@ public class StatisticService {
         StatisticResponse statisticResponse = new StatisticResponse(reserve, reservation, restaurant);
         BaseResponse<StatisticResponse> response = new BaseResponse<>(statisticResponse, "", true);
         return new RestResponseBuilder(200).withEntity(response).create();
+    }
+
+    @GET
+    @Path("admin")
+    public Response statisticAdmin(@HeaderParam(Const.X_USER_DATA) String user) {
+        int userId = Integer.parseInt(user);
+        return null;
     }
 
 

@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS Users
 );
 
 
+
 CREATE TABLE IF NOT EXISTS Restaurant
 (
     RestId        SERIAL PRIMARY KEY,
@@ -20,7 +21,11 @@ CREATE TABLE IF NOT EXISTS Restaurant
     Address       Varchar(150),
     ImageURL      VARCHAR(500),
     WebSite       VARCHAR(500),
-    PhoneNo       varchar(10)
+    PhoneNo       varchar(10),
+    AdminId       Integer,
+    CONSTRAINT fk_Users
+        FOREIGN KEY (AdminId)
+            REFERENCES Users (Id)
 
 );
 
@@ -37,18 +42,6 @@ CREATE TABLE IF NOT EXISTS Rest_Table
 
 );
 
-CREATE TABLE IF NOT EXISTS Rest_Table_Dynamic
-(
-    Id          SERIAL PRIMARY KEY,
-    RestId      INTEGER,
-    SeatsNo     INTEGER,
-    CurrentDate DATE,
-    StartTime   TIME,
-    EndTime     TIME,
-    CONSTRAINT fk_Restaurant
-        FOREIGN KEY (RestId)
-            REFERENCES Restaurant (RestId)
-);
 
 
 CREATE TABLE IF NOT EXISTS Reserve
@@ -64,7 +57,7 @@ CREATE TABLE IF NOT EXISTS Reserve
     Comments    VARCHAR(500),
     CONSTRAINT fk_User
         FOREIGN KEY (UsrId)
-            REFERENCES "User" (Id),
+            REFERENCES Users (Id),
     CONSTRAINT fk_Restaurant
         FOREIGN KEY (RestId)
             REFERENCES Restaurant (RestId),
