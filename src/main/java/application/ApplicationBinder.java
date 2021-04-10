@@ -17,5 +17,6 @@ public class ApplicationBinder extends AbstractBinder {
         bind(RestaurantRepository.class).to(IRestaurantRepository.class);
         bind(ReserveRepository.class).to(IReserveRepository.class);
         bind(StatisticRepository.class).to(IStatisticRepository.class);
+        bind(UserRepository.class).to(IUserRepository.class);
     }
 }

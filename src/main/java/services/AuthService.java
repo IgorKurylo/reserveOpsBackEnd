@@ -9,6 +9,7 @@ import security.AccessTokenGenerator;
 import models.*;
 import security.AuthenticationTokenDetails;
 import interfaces.IConverter;
+import utils.Const;
 import utils.RestResponseBuilder;
 
 import javax.inject.Inject;
@@ -74,4 +75,6 @@ public class AuthService {
         }
         return response;
     }
+
+
 }

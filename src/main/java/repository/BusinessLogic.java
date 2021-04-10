@@ -6,9 +6,8 @@ import java.util.List;
 
 public class BusinessLogic {
     /**
-     * find table by find the min of seats
+     * find the suitable table for reservation
      *
-     * @param guestRequestNumber
      * @param tables
      * @return
      */

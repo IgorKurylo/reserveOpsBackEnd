@@ -24,34 +24,42 @@ models/RestaurantArea.java
  models.RestaurantArea
 services/RestaurantService.java
  services.RestaurantService
-services/StatisticService.java
- services.StatisticService
+models/Restaurant.java
+ models.Restaurant
 interfaces/ICrudBaseOperation.java
  interfaces.ICrudBaseOperation
 models/Area.java
  models.Area
 repository/AuthRepository.java
  repository.AuthRepository
-services/AuthService.java
- services.AuthService
-models/Restaurant.java
- models.Restaurant
+models/user/AdminMetaData.java
+ models.user.AdminMetaData
+models/response/AdminMetaDataResponse.java
+ models.response.AdminMetaDataResponse
 models/AvailableTime.java
  models.AvailableTime
 models/ReserveStatus.java
  models.ReserveStatus
+models/ReservationWeek.java
+ models.ReservationWeek
 exceptions/InvalidTokenException.java
  exceptions.InvalidTokenException
+repository/contracts/IUserRepository.java
+ repository.contracts.IUserRepository
 security/Authorizer.java
  security.Authorizer
 repository/contracts/IRestaurantRepository.java
  repository.contracts.IRestaurantRepository
+models/response/AdminStatisticResponse.java
+ models.response.AdminStatisticResponse
+models/requests/NotUpcomingReserve.java
+ models.requests.NotUpcomingReserve
 models/Reserve.java
  models.Reserve
 models/user/AuthCredentials.java
  models.user.AuthCredentials
-repository/contracts/IStatisticRepository.java
- repository.contracts.IStatisticRepository
+services/StatisticService.java
+ services.StatisticService
 utils/RestResponseBuilder.java
  utils.RestResponseBuilder
 models/response/StatisticResponse.java
@@ -60,8 +68,12 @@ utils/Logs.java
  utils.Logs
 models/user/User.java
  models.user.User
-models/requests/NotUpcomingReserve.java
- models.requests.NotUpcomingReserve
+models/requests/ReserveRequest.java
+ models.requests.ReserveRequest
+models/response/ReserveResponse.java
+ models.response.ReserveResponse
+repository/contracts/IStatisticRepository.java
+ repository.contracts.IStatisticRepository
 models/response/AvailableTimeResponse.java
  models.response.AvailableTimeResponse
 application/ApplicationConfig.java
@@ -70,20 +82,22 @@ models/response/RestaurantResponse.java
  models.response.RestaurantResponse
 security/AccessTokenGenerator.java
  security.AccessTokenGenerator
+exceptions/CreateReserveException.java
+ exceptions.CreateReserveException
 repository/RestaurantRepository.java
  repository.RestaurantRepository
 repository/contracts/IAuthRepository.java
  repository.contracts.IAuthRepository
-models/response/ReserveResponse.java
- models.response.ReserveResponse
+repository/contracts/IReserveRepository.java
+ repository.contracts.IReserveRepository
 utils/JsonConverter.java
  utils.JsonConverter
-repository/DatabaseConnection.java
- repository.DatabaseConnection
+services/ReserveService.java
+ services.ReserveService
 models/ReserveBuilder.java
  models.ReserveBuilder
-models/Role.java
- models.Role
+services/AuthService.java
+ services.AuthService
 utils/Const.java
  utils.Const
 application/Application.java
@@ -92,19 +106,19 @@ models/user/AccessToken.java
  models.user.AccessToken
 interfaces/IConverter.java
  interfaces.IConverter
-repository/BusinessLogic.java
- repository.BusinessLogic
-exceptions/CreateReserveException.java
- exceptions.CreateReserveException
-models/requests/ReserveRequest.java
- models.requests.ReserveRequest
-services/ReserveService.java
- services.ReserveService
+repository/DatabaseConnection.java
+ repository.DatabaseConnection
 repository/ReserveRepository.java
  repository.ReserveRepository
+services/UserService.java
+ services.UserService
+models/Role.java
+ models.Role
+repository/BusinessLogic.java
+ repository.BusinessLogic
+repository/UserRepository.java
+ repository.UserRepository
 repository/StatisticRepository.java
  repository.StatisticRepository
-repository/contracts/IReserveRepository.java
- repository.contracts.IReserveRepository
 application/ApplicationBinder.java
  application.ApplicationBinder

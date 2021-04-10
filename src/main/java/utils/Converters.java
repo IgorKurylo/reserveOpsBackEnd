@@ -4,6 +4,8 @@ package utils;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -21,11 +23,23 @@ public class Converters {
         return formatter.parse(time);
     }
 
+    public static Date convertDateFromString(String date) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat(Const.DATE_FORMAT, Locale.getDefault());
+        return formatter.parse(date);
+    }
+
     public static java.sql.Date toSQLDateType(String date) {
         return java.sql.Date.valueOf(date);
     }
 
     public static java.sql.Time toSQLTimeType(String time) {
         return java.sql.Time.valueOf(time);
+    }
+
+    public static String getDayOfWeek(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        return DayOfWeek.of(dayOfWeek).name();
     }
 }

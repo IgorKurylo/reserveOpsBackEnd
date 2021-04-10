@@ -41,7 +41,9 @@ public class AuthorizerFilter implements ContainerRequestFilter {
             String token = header.replace("Bearer ", "");
             try {
                 AuthenticationTokenDetails details = tokenGenerator.parse(token);
-                requestContext.getHeaders().add(Const.X_USER_DATA, String.valueOf(details.getUser().getId()));
+                requestContext.getHeaders().add(Const.X_USER_ID, String.valueOf(details.getUser().getId()));
+                requestContext.getHeaders().add(Const.X_USER_ROLE, details.getUser().getRole().name());
+
             } catch (InvalidTokenException e) {
                 requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
                         .entity("Unauthorized").build());
