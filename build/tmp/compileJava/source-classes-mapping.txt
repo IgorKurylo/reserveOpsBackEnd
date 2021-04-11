@@ -34,8 +34,8 @@ repository/AuthRepository.java
  repository.AuthRepository
 models/user/AdminMetaData.java
  models.user.AdminMetaData
-models/response/AdminMetaDataResponse.java
- models.response.AdminMetaDataResponse
+models/response/ReserveResponse.java
+ models.response.ReserveResponse
 models/AvailableTime.java
  models.AvailableTime
 models/ReserveStatus.java
@@ -70,8 +70,8 @@ models/user/User.java
  models.user.User
 models/requests/ReserveRequest.java
  models.requests.ReserveRequest
-models/response/ReserveResponse.java
- models.response.ReserveResponse
+repository/UserRepository.java
+ repository.UserRepository
 repository/contracts/IStatisticRepository.java
  repository.contracts.IStatisticRepository
 models/response/AvailableTimeResponse.java
@@ -114,10 +114,10 @@ services/UserService.java
  services.UserService
 models/Role.java
  models.Role
+models/response/AdminMetaDataResponse.java
+ models.response.AdminMetaDataResponse
 repository/BusinessLogic.java
  repository.BusinessLogic
-repository/UserRepository.java
- repository.UserRepository
 repository/StatisticRepository.java
  repository.StatisticRepository
 application/ApplicationBinder.java

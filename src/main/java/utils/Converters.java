@@ -36,10 +36,15 @@ public class Converters {
         return java.sql.Time.valueOf(time);
     }
 
-    public static String getDayOfWeek(Date date) {
+    public static String getDayOfWeekName(Date date) {
+        SimpleDateFormat simpleDateformat = new SimpleDateFormat("E"); // the day of the week abbreviated
+        return simpleDateformat.format(date);
+
+    }
+
+    public static int getDayOfWeekNumber(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        return DayOfWeek.of(dayOfWeek).name();
+        return calendar.get(Calendar.DAY_OF_WEEK);
     }
 }

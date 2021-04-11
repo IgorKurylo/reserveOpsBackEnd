@@ -7,6 +7,7 @@ import models.requests.NotUpcomingReserve;
 import models.response.StatisticResponse;
 import repository.contracts.IDatabaseConnection;
 import repository.contracts.IStatisticRepository;
+import utils.Const;
 import utils.Converters;
 import utils.Logs;
 
@@ -16,10 +17,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.time.DayOfWeek;
+import java.time.format.TextStyle;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class StatisticRepository implements IStatisticRepository {
 
@@ -40,8 +41,10 @@ public class StatisticRepository implements IStatisticRepository {
     private final String _PENDING_RESERVATION_REST_ID = "SELECT count(reserve.id) as pendingCount FROM reserve WHERE restid=%d and reservedate=CURRENT_DATE and status='Waiting'";
     private final String _WEEK_RESERVATION_STATISTICS =
             "SELECT count(reserve.id) as reservations,reservedate as date,worktimeend as timeend,worktimestart as timestart " +
-            "FROM reserve inner join restaurant r on r.restid = reserve.restid " +
-            "WHERE r.restid=%d GROUP BY reservedate,r.restid";
+                    "FROM reserve inner join restaurant r on r.restid = reserve.restid " +
+                    "WHERE r.restid=%d and reservedate between current_date - extract(dow from current_date) * '1 day'::interval " +
+                    "and current_date + (6 - extract(dow from current_date)) * '1 day'::interval " +
+                    "GROUP BY reservedate,r.restid";
 
     private Logs logs;
 
@@ -125,34 +128,62 @@ public class StatisticRepository implements IStatisticRepository {
 
     @Override
     public List<ReservationWeek> reservationsStatistic(int restaurantId) {
-        List<ReservationWeek> list = new ArrayList<>();
+        List<ReservationWeek> list = new ArrayList<>(Collections.nCopies(Const.DAY_OF_WEEK, new ReservationWeek()));
+        List<ReservationWeek> originList = new ArrayList<>();
         Optional<Connection> connection = this._connection.open();
         connection.ifPresent(conn -> {
             String query = String.format(_WEEK_RESERVATION_STATISTICS, restaurantId);
             try {
                 Statement statement = conn.createStatement();
                 ResultSet resultSet = statement.executeQuery(query);
+                initList(list);
                 while (resultSet.next()) {
                     int reservationCnt = resultSet.getInt("reservations");
                     String date = resultSet.getString("date");
                     String start = resultSet.getString("timestart");
                     String end = resultSet.getString("timeend");
-                    list.add(buildReservationWeekObj(date, start, end, reservationCnt));
+                    Date reserveDate = Converters.convertDateFromString(date);
+                    int index = findReservationIndex(list, reserveDate);
+                    if (index != -1) {
+                        list.set(index, buildReservationWeekObj(reserveDate, start, end, reservationCnt));
+                    }
                 }
-            } catch (SQLException ex) {
+
+            } catch (SQLException | ParseException ex) {
                 logs.errorLog(ex.toString());
             }
         });
-        return list;
+        originList = list.stream().skip(1).collect(Collectors.toList());
+        return originList;
     }
 
-    private ReservationWeek buildReservationWeekObj(String date, String start, String end, int reservationCnt) {
+    private void initList(List<ReservationWeek> list) {
+        for (int i = 1; i < list.size(); i++) {
+            if (list.get(i).getDay() == null) {
+                list.set(i, new ReservationWeek(DayOfWeek.of(i).getDisplayName(TextStyle.SHORT, Locale.getDefault()), 0, 0));
+            }
+        }
+    }
+
+    private int findReservationIndex(List<ReservationWeek> list, Date reserveDate) {
+        int index = -1;
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getDay() != null) {
+                if (list.get(i).getDay().equals(Converters.getDayOfWeekName(reserveDate))) {
+                    index = i;
+                    break;
+                }
+            }
+        }
+        return index;
+    }
+
+    private ReservationWeek buildReservationWeekObj(Date reserveDate, String start, String end, int reservationCnt) {
         ReservationWeek reservationWeek = new ReservationWeek();
         try {
             Date startTime = Converters.convertTimeFromString(start);
             Date endTime = Converters.convertTimeFromString(end);
-            Date reserveDate = Converters.convertDateFromString(date);
-            reservationWeek.setDay(Converters.getDayOfWeek(reserveDate));
+            reservationWeek.setDay(Converters.getDayOfWeekName(reserveDate));
             reservationWeek.setReservations(reservationCnt);
             long diffTime = Math.abs(startTime.getTime() - endTime.getTime());
             int hour = (int) diffTime / (60 * 60 * 1000) % 24;
@@ -167,7 +198,7 @@ public class StatisticRepository implements IStatisticRepository {
     @Override
     public int todayReservation(int restaurantId) {
         Optional<Connection> connection = this._connection.open();
-        int todayReservation = 0;
+        int todayReservation = -1;
 
         String query = String.format(_RESERVATION_COUNT_BY_REST_ID_QUERY, restaurantId);
         if (connection.isPresent()) {
@@ -190,7 +221,7 @@ public class StatisticRepository implements IStatisticRepository {
     @Override
     public int pendingReservation(int restaurantId) {
         Optional<Connection> connection = this._connection.open();
-        int pendingReservation = 0;
+        int pendingReservation = -1;
 
         String query = String.format(_PENDING_RESERVATION_REST_ID, restaurantId);
         if (connection.isPresent()) {
