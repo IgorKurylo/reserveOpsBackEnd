@@ -36,12 +36,20 @@ public class ReserveRepository implements IReserveRepository {
             "WHERE rest_table.restid=%d " +
             "and rest_table.seats>=%d and rest_table.seats<=%d and reservedate<>'%s' and reservetime<>'%s'";
 
+    private final String _RESERVES_LIST_ADMIN =
+            "SELECT restname,imageurl,to_char(reservetime,'HH24:MM') as time," +
+                    "reservedate as date,guests,status " +
+                    "FROM reserve " +
+                    "INNER JOIN restaurant r on r.restid = reserve.restid " +
+                    "WHERE usrid=%d and reservedate='%s'  order by reservedate desc";
     private final String _RESERVES_LIST =
             "SELECT restname,imageurl,to_char(reservetime,'HH24:MM') as time," +
                     "reservedate as date,guests,status " +
                     "FROM reserve " +
                     "INNER JOIN restaurant r on r.restid = reserve.restid " +
-                    "WHERE usrid=%d order by reservedate desc";
+                    "WHERE usrid=%d and reservedate >= '%s' or reservedate <='%s' order by reservedate,reservetime asc";
+
+
     private final String _GET_TABLES_BY_REST_ID = "SELECT tblid,seats FROM rest_table WHERE restid=%d and rest_table.seats>=%d and rest_table.seats<=%d";
 
     @Inject
@@ -167,11 +175,16 @@ public class ReserveRepository implements IReserveRepository {
     }
 
     @Override
-    public List<Reserve> getReserves(int userId) {
+    public List<Reserve> getReserves(int userId, String date, Role role) {
         List<Reserve> reserves = new ArrayList<>();
         Optional<Connection> connection = _connection.open();
         connection.ifPresent(conn -> {
-            String query = String.format(_RESERVES_LIST, userId); // build query if date is set or not
+            String query = "";
+            if (role == Role.SimpleUser) {
+                query = String.format(_RESERVES_LIST, userId, date, date);
+            } else {
+                query = String.format(_RESERVES_LIST_ADMIN, userId, date);
+            }
             Statement statement = null;
             try {
                 statement = conn.createStatement();

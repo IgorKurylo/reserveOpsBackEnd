@@ -1,4 +1,4 @@
-CREATE TYPE Reserve_Status AS ENUM ('Approved','Waiting','Deleted');
+CREATE TYPE Reserve_Status AS ENUM ('Approved','Waiting','Decline');
 CREATE TYPE Rest_Area AS ENUM ('NORTH','HAIFA','TELAVIV','ASHDOD_ASHKELON','SOUTH','EILAT');
 CREATE TABLE IF NOT EXISTS Users
 (
@@ -38,7 +38,8 @@ CREATE TABLE IF NOT EXISTS Rest_Table
     RestId INTEGER,
     CONSTRAINT fk_Restaurant
         FOREIGN KEY (RestId)
-            REFERENCES Restaurant (RestId)
+            REFERENCES Restaurant (RestId),
+    Seats integer
 
 );
 

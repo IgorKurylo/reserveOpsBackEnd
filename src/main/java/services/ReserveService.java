@@ -5,6 +5,7 @@ import interfaces.ICrudBaseOperation;
 import models.AvailableTime;
 import models.BaseResponse;
 import models.Reserve;
+import models.Role;
 import models.requests.ReserveRequest;
 import models.response.AvailableTimeResponse;
 import models.response.ReserveListResponse;
@@ -59,8 +60,8 @@ public class ReserveService implements ICrudBaseOperation<ReserveRequest> {
     @GET
     @Authorizer
     @Produces(MediaType.APPLICATION_JSON)
-    public Response reservesList(@HeaderParam(Const.X_USER_ID) String user) {
-        List<Reserve> reserveList = _repository.getReserves(Integer.parseInt(user));
+    public Response reservesList(@QueryParam("date") String date, @HeaderParam(Const.X_USER_ID) String user, @HeaderParam(Const.X_USER_ROLE) String role) {
+        List<Reserve> reserveList = _repository.getReserves(Integer.parseInt(user), date, Role.valueOf(role));
         BaseResponse<ReserveListResponse> response = new BaseResponse<>
                 (new ReserveListResponse(reserveList), "", true);
         return new RestResponseBuilder(200).withEntity(response).create();
@@ -97,7 +98,9 @@ public class ReserveService implements ICrudBaseOperation<ReserveRequest> {
     @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response update(ReserveRequest r, @HeaderParam(Const.X_USER_ID) String user) {
-        return null;
+        Reserve reserve = _repository.update(r.getReserve());
+        BaseResponse<ReserveResponse> response = new BaseResponse<>(new ReserveResponse(reserve), "", true);
+        return new RestResponseBuilder(200).withEntity(response).create();
     }
 
     @DELETE

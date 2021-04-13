@@ -15,7 +15,10 @@ public class Reserve {
     private int guest;
     @SerializedName("comment")
     private String comment;
+    @SerializedName("Status")
+    private String status;
     private int tableId;
+
     private ReserveStatus reserveStatus;
 
     public Reserve(String date, String time, Restaurant restaurant, int guest, int tableId, ReserveStatus reserveStatus, String comment) {
@@ -30,6 +33,11 @@ public class Reserve {
 
     public Reserve(int id) {
         Id = id;
+    }
+
+    public Reserve(int id, String status) {
+        Id = id;
+        this.status = status;
     }
 
     public Reserve() {

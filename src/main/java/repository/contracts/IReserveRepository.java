@@ -3,6 +3,7 @@ package repository.contracts;
 import exceptions.CreateReserveException;
 import models.AvailableTime;
 import models.Reserve;
+import models.Role;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface IReserveRepository {
 
     Reserve getReserve(int id);
 
-    List<Reserve> getReserves(int userId);
+    List<Reserve> getReserves(int userId, String date, Role role);
 
     List<AvailableTime> availableTimes(int restaurantId, String date);
 
