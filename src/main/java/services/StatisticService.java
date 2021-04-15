@@ -18,6 +18,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
+/**
+ * Statistics service which create data for user & admin statistics dashboards
+ */
 @Path("statistics")
 @Authorizer
 public class StatisticService {

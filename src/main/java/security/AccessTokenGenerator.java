@@ -12,7 +12,9 @@ import models.user.User;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
-
+/**
+ * Access token generator
+ */
 public class AccessTokenGenerator {
     private Algorithm algorithm;
 

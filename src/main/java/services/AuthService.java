@@ -18,7 +18,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.UnsupportedEncodingException;
 
-
+/**
+ * Auth service which handle rest api for authentication
+ */
 @Path("auth")
 public class AuthService {
     @Inject
@@ -35,6 +37,12 @@ public class AuthService {
         }
     }
 
+    /**
+     * Authentication gateway
+     *
+     * @param authCredentials
+     * @return
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -58,6 +66,12 @@ public class AuthService {
         return response;
     }
 
+    /**
+     * Registeration gateway
+     *
+     * @param user
+     * @return
+     */
     @POST
     @Path("register")
     @Consumes(MediaType.APPLICATION_JSON)

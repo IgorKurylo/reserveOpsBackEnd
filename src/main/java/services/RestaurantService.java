@@ -15,7 +15,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-
+/**
+ *  Restaurant service which handle all restaurant operations
+ */
 @Path("restaurant")
 public class RestaurantService {
     @Inject

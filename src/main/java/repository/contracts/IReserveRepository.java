@@ -17,7 +17,7 @@ public interface IReserveRepository {
 
     Reserve getReserve(int id);
 
-    List<Reserve> getReserves(int userId, String date, Role role);
+    List<Reserve> getReserves(int userId, String date,int restId, Role role);
 
     List<AvailableTime> availableTimes(int restaurantId, String date);
 

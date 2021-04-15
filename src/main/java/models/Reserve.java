@@ -31,12 +31,21 @@ public class Reserve {
         this.comment = comment;
     }
 
+
     public Reserve(int id) {
         Id = id;
     }
 
     public Reserve(int id, String status) {
         Id = id;
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
         this.status = status;
     }
 

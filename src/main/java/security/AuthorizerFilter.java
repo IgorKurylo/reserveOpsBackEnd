@@ -14,6 +14,9 @@ import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+/**
+ * Authorization filer
+ */
 @Provider
 @Authorizer
 @Priority(Priorities.AUTHENTICATION)

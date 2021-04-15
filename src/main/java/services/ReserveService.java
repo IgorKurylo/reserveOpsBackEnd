@@ -21,6 +21,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
+/**
+ *  Reservation Service for handle reservation operation
+ */
 @Path("reserve")
 public class ReserveService implements ICrudBaseOperation<ReserveRequest> {
 
@@ -60,8 +63,9 @@ public class ReserveService implements ICrudBaseOperation<ReserveRequest> {
     @GET
     @Authorizer
     @Produces(MediaType.APPLICATION_JSON)
-    public Response reservesList(@QueryParam("date") String date, @HeaderParam(Const.X_USER_ID) String user, @HeaderParam(Const.X_USER_ROLE) String role) {
-        List<Reserve> reserveList = _repository.getReserves(Integer.parseInt(user), date, Role.valueOf(role));
+    public Response reservesList(@QueryParam("date") String date, @QueryParam("restaurantId") int restId,
+                                 @HeaderParam(Const.X_USER_ID) String user, @HeaderParam(Const.X_USER_ROLE) String role) {
+        List<Reserve> reserveList = _repository.getReserves(Integer.parseInt(user), date, restId, Role.valueOf(role));
         BaseResponse<ReserveListResponse> response = new BaseResponse<>
                 (new ReserveListResponse(reserveList), "", true);
         return new RestResponseBuilder(200).withEntity(response).create();
@@ -97,7 +101,7 @@ public class ReserveService implements ICrudBaseOperation<ReserveRequest> {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Override
-    public Response update(ReserveRequest r, @HeaderParam(Const.X_USER_ID) String user) {
+    public Response update(ReserveRequest r, @PathParam("id") int restId, @HeaderParam(Const.X_USER_ID) String user) {
         Reserve reserve = _repository.update(r.getReserve());
         BaseResponse<ReserveResponse> response = new BaseResponse<>(new ReserveResponse(reserve), "", true);
         return new RestResponseBuilder(200).withEntity(response).create();

@@ -16,6 +16,9 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
+/**
+ *  User service which handle operation for user
+ */
 @Path("user")
 @Authorizer
 public class UserService {

@@ -47,7 +47,7 @@ public class StatisticRepository implements IStatisticRepository {
                     "and current_date + (6 - extract(dow from current_date)) * '1 day'::interval " +
                     "GROUP BY reservedate,r.restid";
 
-    private Logs logs;
+    private final Logs logs;
 
     public StatisticRepository() {
         logs = Logs.getInstance().init(ReserveRepository.class.getName());

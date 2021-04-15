@@ -19,7 +19,7 @@ public class ReserveRepository implements IReserveRepository {
     private final String _RESERVE_BY_ID_QUERY = "SELECT * FROM reserve WHERE id = %d";
     private final String _RESERVE_DELETE = "DELETE FROM reserve WHERE Id = ?";
     private final String _RESERVE_UPDATE_METADATA = "UPDATE reserve SET reservedate=?,SET reservetime=? guest=? WHERE id=?";
-    private final String _RESERVE_UPDATE_STATUS = "UPDATE reserve SET status=? WHERE Id=?";
+    private final String _RESERVE_UPDATE_STATUS = "UPDATE reserve SET status='%s' WHERE Id=%d";
 
     private final String _RESERVE_CREATE = "INSERT INTO reserve " +
             "(usrid, restid, tblid, reservedate, reservetime, guests, status,comments) VALUES (?, ?, ?, ?, ?, ?, ?,?)";
@@ -37,16 +37,13 @@ public class ReserveRepository implements IReserveRepository {
             "and rest_table.seats>=%d and rest_table.seats<=%d and reservedate<>'%s' and reservetime<>'%s'";
 
     private final String _RESERVES_LIST_ADMIN =
-            "SELECT restname,imageurl,to_char(reservetime,'HH24:MM') as time," +
-                    "reservedate as date,guests,status " +
-                    "FROM reserve " +
-                    "INNER JOIN restaurant r on r.restid = reserve.restid " +
-                    "WHERE usrid=%d and reservedate='%s'  order by reservedate desc";
+            "SELECT id,restname,imageurl,to_char(reservetime, 'HH24:MM') as time,reservedate as date,guests,status " +
+                    "FROM (SELECT r.restid, r.restname, r.imageurl, reservetime,reservedate,status,guests " +
+                    "FROM reserve INNER JOIN restaurant r on r.restid = reserve.restid " +
+                    "WHERE reservedate = '%s') as O WHERE restid = %d order by reservedate,reservetime desc";
     private final String _RESERVES_LIST =
             "SELECT restname,imageurl,to_char(reservetime,'HH24:MM') as time," +
                     "reservedate as date,guests,status " +
-                    "FROM reserve " +
-                    "INNER JOIN restaurant r on r.restid = reserve.restid " +
                     "WHERE usrid=%d and reservedate >= '%s' or reservedate <='%s' order by reservedate,reservetime asc";
 
 
@@ -54,7 +51,7 @@ public class ReserveRepository implements IReserveRepository {
 
     @Inject
     IDatabaseConnection _connection;
-    private Logs logs;
+    private final Logs logs;
 
     public ReserveRepository() {
         logs = Logs.getInstance().init(ReserveRepository.class.getName());
@@ -122,11 +119,20 @@ public class ReserveRepository implements IReserveRepository {
 
     @Override
     public Reserve update(Reserve reserve) {
+        logs.infoLog(reserve.toString());
         Optional<Connection> connection = this._connection.open();
         connection.ifPresent(conn -> {
 
+            try {
+                String query = String.format(_RESERVE_UPDATE_STATUS, reserve.getStatus(), reserve.getId());
+                Statement statement = conn.createStatement();
+                ResultSet resultSet = statement.executeQuery(query);
+
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         });
-        return null;
+        return reserve;
     }
 
     @Override
@@ -175,15 +181,16 @@ public class ReserveRepository implements IReserveRepository {
     }
 
     @Override
-    public List<Reserve> getReserves(int userId, String date, Role role) {
+    public List<Reserve> getReserves(int userId, String date, int restId, Role role) {
         List<Reserve> reserves = new ArrayList<>();
+        logs.infoLog(String.format("Get reservations -> user %d, date %s, restId %d,role %s", userId, date, restId, role.toString()));
         Optional<Connection> connection = _connection.open();
         connection.ifPresent(conn -> {
             String query = "";
             if (role == Role.SimpleUser) {
                 query = String.format(_RESERVES_LIST, userId, date, date);
             } else {
-                query = String.format(_RESERVES_LIST_ADMIN, userId, date);
+                query = String.format(_RESERVES_LIST_ADMIN, date, restId);
             }
             Statement statement = null;
             try {
@@ -211,7 +218,7 @@ public class ReserveRepository implements IReserveRepository {
 
     @Override
     public List<AvailableTime> availableTimes(int restaurantId, String date) {
-
+        logs.infoLog(String.format("Available Times -> restaurant Id %s,date %s", restaurantId, date));
         List<AvailableTime> list = new ArrayList<>();
         List<String> notAvailableTimes = new ArrayList<>();
         Optional<Connection> connection = this._connection.open();
@@ -279,6 +286,7 @@ public class ReserveRepository implements IReserveRepository {
     }
 
     private List<RestaurantTables> availableTables(Reserve reserve, Connection conn) throws SQLException {
+        logs.infoLog(String.format("Available Tables %s", reserve.toString()));
         List<RestaurantTables> tables = new ArrayList<>();
         Statement selectStatement;
         selectStatement = conn.createStatement();

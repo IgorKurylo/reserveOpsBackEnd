@@ -24,8 +24,8 @@ models/RestaurantArea.java
  models.RestaurantArea
 services/RestaurantService.java
  services.RestaurantService
-models/Restaurant.java
- models.Restaurant
+models/response/AdminMetaDataResponse.java
+ models.response.AdminMetaDataResponse
 interfaces/ICrudBaseOperation.java
  interfaces.ICrudBaseOperation
 models/Area.java
@@ -34,8 +34,8 @@ repository/AuthRepository.java
  repository.AuthRepository
 models/user/AdminMetaData.java
  models.user.AdminMetaData
-application/Application.java
- application.Application
+models/Restaurant.java
+ models.Restaurant
 models/AvailableTime.java
  models.AvailableTime
 models/ReserveStatus.java
@@ -54,26 +54,26 @@ models/response/AdminStatisticResponse.java
  models.response.AdminStatisticResponse
 models/requests/NotUpcomingReserve.java
  models.requests.NotUpcomingReserve
-models/Role.java
- models.Role
+models/Reserve.java
+ models.Reserve
 models/user/AuthCredentials.java
  models.user.AuthCredentials
-services/UserService.java
- services.UserService
+services/StatisticService.java
+ services.StatisticService
 utils/RestResponseBuilder.java
  utils.RestResponseBuilder
-repository/DatabaseConnection.java
- repository.DatabaseConnection
+models/response/StatisticResponse.java
+ models.response.StatisticResponse
 utils/Logs.java
  utils.Logs
 models/user/User.java
  models.user.User
-interfaces/IConverter.java
- interfaces.IConverter
-models/user/AccessToken.java
- models.user.AccessToken
-services/AuthService.java
- services.AuthService
+models/requests/ReserveRequest.java
+ models.requests.ReserveRequest
+repository/BusinessLogic.java
+ repository.BusinessLogic
+repository/contracts/IStatisticRepository.java
+ repository.contracts.IStatisticRepository
 models/response/AvailableTimeResponse.java
  models.response.AvailableTimeResponse
 application/ApplicationConfig.java
@@ -88,32 +88,32 @@ repository/RestaurantRepository.java
  repository.RestaurantRepository
 repository/contracts/IAuthRepository.java
  repository.contracts.IAuthRepository
-repository/BusinessLogic.java
- repository.BusinessLogic
-utils/JsonConverter.java
- utils.JsonConverter
-models/response/AdminMetaDataResponse.java
- models.response.AdminMetaDataResponse
-utils/Const.java
- utils.Const
-models/response/ReserveResponse.java
- models.response.ReserveResponse
-repository/contracts/IStatisticRepository.java
- repository.contracts.IStatisticRepository
 repository/contracts/IReserveRepository.java
  repository.contracts.IReserveRepository
+utils/JsonConverter.java
+ utils.JsonConverter
 services/ReserveService.java
  services.ReserveService
-models/Reserve.java
- models.Reserve
-services/StatisticService.java
- services.StatisticService
 models/ReserveBuilder.java
  models.ReserveBuilder
-models/response/StatisticResponse.java
- models.response.StatisticResponse
-models/requests/ReserveRequest.java
- models.requests.ReserveRequest
+services/AuthService.java
+ services.AuthService
+utils/Const.java
+ utils.Const
+application/Application.java
+ application.Application
+models/user/AccessToken.java
+ models.user.AccessToken
+interfaces/IConverter.java
+ interfaces.IConverter
+repository/DatabaseConnection.java
+ repository.DatabaseConnection
+models/response/ReserveResponse.java
+ models.response.ReserveResponse
+services/UserService.java
+ services.UserService
+models/Role.java
+ models.Role
 repository/ReserveRepository.java
  repository.ReserveRepository
 repository/StatisticRepository.java

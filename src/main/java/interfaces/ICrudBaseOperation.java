@@ -11,9 +11,9 @@ public interface ICrudBaseOperation<E> {
 
     Response create(E object, String headers);
 
-    Response update(E object, String headers);
+    Response update(E object, int id, String headers);
 
-    Response delete(int id,String headers);
+    Response delete(int id, String headers);
 
 
     Response read(int id, String headers);
