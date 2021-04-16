@@ -1,7 +1,6 @@
-package models;
+package models.enums;
 
 public enum ReserveStatus {
     Approved,
-    Waiting,
-    Deleted
+    Waiting
 }

@@ -5,7 +5,7 @@ import interfaces.ICrudBaseOperation;
 import models.AvailableTime;
 import models.BaseResponse;
 import models.Reserve;
-import models.Role;
+import models.enums.Role;
 import models.requests.ReserveRequest;
 import models.response.AvailableTimeResponse;
 import models.response.ReserveListResponse;

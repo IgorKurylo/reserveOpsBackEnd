@@ -1,13 +1,11 @@
 package repository;
 
 import models.user.AuthCredentials;
-import models.Role;
+import models.enums.Role;
 import repository.contracts.IAuthRepository;
 import repository.contracts.IDatabaseConnection;
 import models.user.User;
 import org.jvnet.hk2.annotations.Service;
-import utils.Const;
-import utils.Converters;
 import utils.Logs;
 
 import javax.inject.Inject;

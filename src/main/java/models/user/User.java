@@ -1,7 +1,7 @@
 package models.user;
 
 import com.google.gson.annotations.SerializedName;
-import models.Role;
+import models.enums.Role;
 
 public class User {
     @SerializedName("firstName")

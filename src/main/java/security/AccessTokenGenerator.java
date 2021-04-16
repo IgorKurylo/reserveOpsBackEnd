@@ -6,7 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import exceptions.InvalidTokenException;
-import models.Role;
+import models.enums.Role;
 import models.user.User;
 
 import java.io.UnsupportedEncodingException;

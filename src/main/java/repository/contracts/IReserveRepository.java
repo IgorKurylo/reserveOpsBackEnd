@@ -4,7 +4,7 @@ import exceptions.CreateReserveException;
 import exceptions.ReserveApproveException;
 import models.AvailableTime;
 import models.Reserve;
-import models.Role;
+import models.enums.Role;
 
 import java.util.List;
 

@@ -1,6 +1,7 @@
 package models;
 
 import com.google.gson.annotations.SerializedName;
+import models.enums.ReserveStatus;
 
 public class Reserve {
 

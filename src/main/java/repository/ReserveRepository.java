@@ -3,6 +3,8 @@ package repository;
 import exceptions.CreateReserveException;
 import exceptions.ReserveApproveException;
 import models.*;
+import models.enums.ReserveStatus;
+import models.enums.Role;
 import repository.contracts.IDatabaseConnection;
 import repository.contracts.IReserveRepository;
 import utils.Const;
