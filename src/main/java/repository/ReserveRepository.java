@@ -1,6 +1,7 @@
 package repository;
 
 import exceptions.CreateReserveException;
+import exceptions.ReserveApproveException;
 import models.*;
 import repository.contracts.IDatabaseConnection;
 import repository.contracts.IReserveRepository;
@@ -20,6 +21,8 @@ public class ReserveRepository implements IReserveRepository {
     private final String _RESERVE_DELETE = "DELETE FROM reserve WHERE Id = ?";
     private final String _RESERVE_UPDATE_METADATA = "UPDATE reserve SET reservedate=?,SET reservetime=? guest=? WHERE id=?";
     private final String _RESERVE_UPDATE_STATUS = "UPDATE reserve SET status='%s' WHERE Id=%d";
+    private final String _RESERVE_UPDATE_STATUS_APPROVE = "UPDATE reserve SET status='Approved' WHERE Id=%d";
+    private final String _RESERVE_LIST_WAITING = "SELECT Id FROM reserve WHERE status='Waiting'";
 
     private final String _RESERVE_CREATE = "INSERT INTO reserve " +
             "(usrid, restid, tblid, reservedate, reservetime, guests, status,comments) VALUES (?, ?, ?, ?, ?, ?, ?,?)";
@@ -204,12 +207,12 @@ public class ReserveRepository implements IReserveRepository {
                 while (resultSet.next()) {
                     reserves.add(
                             new Reserve(resultSet.getInt("id"), resultSet.getString("date"),
-                            resultSet.getString("time"), new Restaurant(
-                            0, resultSet.getString("restname"),
-                            "", "", resultSet.getString("imageurl"),
-                            null, "", "", "", ""),
-                            resultSet.getInt("guests"), "",
-                            resultSet.getString("status")));
+                                    resultSet.getString("time"), new Restaurant(
+                                    0, resultSet.getString("restname"),
+                                    "", "", resultSet.getString("imageurl"),
+                                    null, "", "", "", ""),
+                                    resultSet.getInt("guests"), "",
+                                    resultSet.getString("status")));
 
                 }
 
@@ -253,6 +256,7 @@ public class ReserveRepository implements IReserveRepository {
 
         return buildAvailableTimes(startTime.get(), endTime.get(), notAvailableTimes);
     }
+
 
     private List<AvailableTime> buildAvailableTimes(String start, String end, List<String> notAvailableTimes) {
         List<AvailableTime> list = new ArrayList<>();
@@ -315,5 +319,33 @@ public class ReserveRepository implements IReserveRepository {
             tables.add(new RestaurantTables(resultSet.getInt("seats"), resultSet.getInt("tblid")));
         }
         return tables;
+    }
+
+    @Override
+    public void approveAll(IDatabaseConnection connection) throws ReserveApproveException {
+        Optional<Connection> optionalConnection = connection.open();
+        List<Integer> reservesIds = new ArrayList<>();
+        if (optionalConnection.isPresent()) {
+            Connection conn = optionalConnection.get();
+            try {
+                Statement statement = conn.createStatement();
+                ResultSet set = statement.executeQuery(_RESERVE_LIST_WAITING);
+                while (set.next()) {
+                    reservesIds.add(set.getInt("Id"));
+                }
+                if (reservesIds.size() > 0) {
+                    for (Integer integer : reservesIds) {
+                        Statement s = conn.createStatement();
+                        s.executeUpdate(String.format(_RESERVE_UPDATE_STATUS_APPROVE, integer));
+                    }
+                }
+            } catch (SQLException e) {
+                _connection.close();
+                throw new ReserveApproveException("Error on update \n" + e.getMessage());
+            } finally {
+                _connection.close();
+            }
+
+        }
     }
 }

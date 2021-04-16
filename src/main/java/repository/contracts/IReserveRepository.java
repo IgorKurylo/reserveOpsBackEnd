@@ -1,6 +1,7 @@
 package repository.contracts;
 
 import exceptions.CreateReserveException;
+import exceptions.ReserveApproveException;
 import models.AvailableTime;
 import models.Reserve;
 import models.Role;
@@ -22,4 +23,5 @@ public interface IReserveRepository {
     List<AvailableTime> availableTimes(int restaurantId, String date);
 
 
+    void approveAll(IDatabaseConnection connection) throws ReserveApproveException;
 }

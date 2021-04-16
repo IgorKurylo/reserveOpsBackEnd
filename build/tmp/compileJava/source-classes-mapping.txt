@@ -94,30 +94,34 @@ utils/JsonConverter.java
  utils.JsonConverter
 models/response/AdminMetaDataResponse.java
  models.response.AdminMetaDataResponse
-application/Application.java
- application.Application
+models/response/StatisticResponse.java
+ models.response.StatisticResponse
 models/requests/ReserveRequest.java
  models.requests.ReserveRequest
-repository/contracts/IReserveRepository.java
- repository.contracts.IReserveRepository
-services/ReserveService.java
- services.ReserveService
+models/response/ReserveResponse.java
+ models.response.ReserveResponse
+repository/contracts/IStatisticRepository.java
+ repository.contracts.IStatisticRepository
 models/Reserve.java
  models.Reserve
 services/StatisticService.java
  services.StatisticService
 models/ReserveBuilder.java
  models.ReserveBuilder
-repository/contracts/IStatisticRepository.java
- repository.contracts.IStatisticRepository
-models/response/StatisticResponse.java
- models.response.StatisticResponse
-models/response/ReserveResponse.java
- models.response.ReserveResponse
+exceptions/ReserveApproveException.java
+ exceptions.ReserveApproveException
+services/ReserveService.java
+ services.ReserveService
+repository/contracts/IReserveRepository.java
+ repository.contracts.IReserveRepository
+utils/ReservationScheduler.java
+ utils.ReservationScheduler
 repository/ReserveRepository.java
  repository.ReserveRepository
 repository/StatisticRepository.java
  repository.StatisticRepository
+application/Application.java
+ application.Application
 repository/UserRepository.java
  repository.UserRepository
 application/ApplicationBinder.java
