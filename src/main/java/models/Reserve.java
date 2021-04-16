@@ -4,24 +4,24 @@ import com.google.gson.annotations.SerializedName;
 
 public class Reserve {
 
+    @SerializedName("id")
     private int Id;
-    @SerializedName("Date")
+    @SerializedName("date")
     private String date;
-    @SerializedName("Time")
+    @SerializedName("time")
     private String time;
-    @SerializedName("Restaurant")
+    @SerializedName("restaurant")
     private Restaurant restaurant;
-    @SerializedName("Guests")
+    @SerializedName("guests")
     private int guest;
     @SerializedName("comment")
     private String comment;
-    @SerializedName("Status")
+    @SerializedName("status")
     private String status;
     private int tableId;
-
     private ReserveStatus reserveStatus;
 
-    public Reserve(String date, String time, Restaurant restaurant, int guest, int tableId, ReserveStatus reserveStatus, String comment) {
+    public Reserve(int id, String date, String time, Restaurant restaurant, int guest, int tableId, ReserveStatus reserveStatus, String comment) {
         this.date = date;
         this.time = time;
         this.restaurant = restaurant;
@@ -29,8 +29,19 @@ public class Reserve {
         this.tableId = tableId;
         this.reserveStatus = reserveStatus;
         this.comment = comment;
+        this.Id = id;
     }
 
+    public Reserve(int id, String date, String time, Restaurant restaurant, int guest, String comment, String status) {
+        Id = id;
+        this.date = date;
+        this.time = time;
+        this.restaurant = restaurant;
+        this.guest = guest;
+        this.comment = comment;
+        this.status = status;
+
+    }
 
     public Reserve(int id) {
         Id = id;

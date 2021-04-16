@@ -38,12 +38,14 @@ public class ReserveRepository implements IReserveRepository {
 
     private final String _RESERVES_LIST_ADMIN =
             "SELECT id,restname,imageurl,to_char(reservetime, 'HH24:MM') as time,reservedate as date,guests,status " +
-                    "FROM (SELECT r.restid, r.restname, r.imageurl, reservetime,reservedate,status,guests " +
+                    "FROM (SELECT id, r.restid, r.restname, r.imageurl, reservetime,reservedate,status,guests " +
                     "FROM reserve INNER JOIN restaurant r on r.restid = reserve.restid " +
                     "WHERE reservedate = '%s') as O WHERE restid = %d order by reservedate,reservetime desc";
     private final String _RESERVES_LIST =
-            "SELECT restname,imageurl,to_char(reservetime,'HH24:MM') as time," +
+            "SELECT id,restname,imageurl,to_char(reservetime,'HH24:MM') as time," +
                     "reservedate as date,guests,status " +
+                    "FROM reserve " +
+                    "INNER JOIN restaurant r on r.restid = reserve.restid " +
                     "WHERE usrid=%d and reservedate >= '%s' or reservedate <='%s' order by reservedate,reservetime asc";
 
 
@@ -126,7 +128,10 @@ public class ReserveRepository implements IReserveRepository {
             try {
                 String query = String.format(_RESERVE_UPDATE_STATUS, reserve.getStatus(), reserve.getId());
                 Statement statement = conn.createStatement();
-                ResultSet resultSet = statement.executeQuery(query);
+                int affectedRows = statement.executeUpdate(query);
+                if (affectedRows <= 0) {
+                    reserve.setId(0);
+                }
 
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -197,15 +202,15 @@ public class ReserveRepository implements IReserveRepository {
                 statement = conn.createStatement();
                 ResultSet resultSet = statement.executeQuery(query);
                 while (resultSet.next()) {
-                    reserves.add(new Reserve(resultSet.getString("date"),
+                    reserves.add(
+                            new Reserve(resultSet.getInt("id"), resultSet.getString("date"),
                             resultSet.getString("time"), new Restaurant(
                             0, resultSet.getString("restname"),
                             "", "", resultSet.getString("imageurl"),
                             null, "", "", "", ""),
-                            resultSet.getInt("guests"), 0,
-                            ReserveStatus.valueOf(resultSet.getString("status")),
-                            ""
-                    ));
+                            resultSet.getInt("guests"), "",
+                            resultSet.getString("status")));
+
                 }
 
             } catch (SQLException ex) {

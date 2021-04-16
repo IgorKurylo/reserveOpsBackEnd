@@ -24,8 +24,8 @@ models/RestaurantArea.java
  models.RestaurantArea
 services/RestaurantService.java
  services.RestaurantService
-models/response/AdminMetaDataResponse.java
- models.response.AdminMetaDataResponse
+utils/Const.java
+ utils.Const
 interfaces/ICrudBaseOperation.java
  interfaces.ICrudBaseOperation
 models/Area.java
@@ -54,26 +54,26 @@ models/response/AdminStatisticResponse.java
  models.response.AdminStatisticResponse
 models/requests/NotUpcomingReserve.java
  models.requests.NotUpcomingReserve
-models/Reserve.java
- models.Reserve
+models/Role.java
+ models.Role
 models/user/AuthCredentials.java
  models.user.AuthCredentials
-services/StatisticService.java
- services.StatisticService
+services/UserService.java
+ services.UserService
 utils/RestResponseBuilder.java
  utils.RestResponseBuilder
-models/response/StatisticResponse.java
- models.response.StatisticResponse
+repository/DatabaseConnection.java
+ repository.DatabaseConnection
 utils/Logs.java
  utils.Logs
 models/user/User.java
  models.user.User
-models/requests/ReserveRequest.java
- models.requests.ReserveRequest
-repository/BusinessLogic.java
- repository.BusinessLogic
-repository/contracts/IStatisticRepository.java
- repository.contracts.IStatisticRepository
+interfaces/IConverter.java
+ interfaces.IConverter
+models/user/AccessToken.java
+ models.user.AccessToken
+services/AuthService.java
+ services.AuthService
 models/response/AvailableTimeResponse.java
  models.response.AvailableTimeResponse
 application/ApplicationConfig.java
@@ -88,32 +88,32 @@ repository/RestaurantRepository.java
  repository.RestaurantRepository
 repository/contracts/IAuthRepository.java
  repository.contracts.IAuthRepository
-repository/contracts/IReserveRepository.java
- repository.contracts.IReserveRepository
+repository/BusinessLogic.java
+ repository.BusinessLogic
 utils/JsonConverter.java
  utils.JsonConverter
-services/ReserveService.java
- services.ReserveService
-models/ReserveBuilder.java
- models.ReserveBuilder
-services/AuthService.java
- services.AuthService
-utils/Const.java
- utils.Const
+models/response/AdminMetaDataResponse.java
+ models.response.AdminMetaDataResponse
 application/Application.java
  application.Application
-models/user/AccessToken.java
- models.user.AccessToken
-interfaces/IConverter.java
- interfaces.IConverter
-repository/DatabaseConnection.java
- repository.DatabaseConnection
+models/requests/ReserveRequest.java
+ models.requests.ReserveRequest
+repository/contracts/IReserveRepository.java
+ repository.contracts.IReserveRepository
+services/ReserveService.java
+ services.ReserveService
+models/Reserve.java
+ models.Reserve
+services/StatisticService.java
+ services.StatisticService
+models/ReserveBuilder.java
+ models.ReserveBuilder
+repository/contracts/IStatisticRepository.java
+ repository.contracts.IStatisticRepository
+models/response/StatisticResponse.java
+ models.response.StatisticResponse
 models/response/ReserveResponse.java
  models.response.ReserveResponse
-services/UserService.java
- services.UserService
-models/Role.java
- models.Role
 repository/ReserveRepository.java
  repository.ReserveRepository
 repository/StatisticRepository.java

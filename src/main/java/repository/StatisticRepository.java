@@ -30,7 +30,7 @@ public class StatisticRepository implements IStatisticRepository {
             "SELECT reservedate as date, to_char(reservetime,'HH24:MM') as time, guests, restname " +
             "FROM reserve " +
             "INNER JOIN restaurant r on r.restid = reserve.restid " +
-            "WHERE reservedate > CURRENT_DATE " +
+            "WHERE reservedate >= CURRENT_DATE " +
             "and usrid = %d order by reservedate asc LIMIT 1 ";
     private final String _RESERVATION_QUERY = "SELECT count(reserve.id) as reservationCount FROM reserve WHERE usrid = %d";
     private final String _LAST_VISIT_QUERY = "SELECT  restname,reservedate " +
