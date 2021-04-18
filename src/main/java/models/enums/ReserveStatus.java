@@ -2,5 +2,6 @@ package models.enums;
 
 public enum ReserveStatus {
     Approved,
-    Waiting
+    Waiting,
+    Decline
 }
